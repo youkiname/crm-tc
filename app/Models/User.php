@@ -41,4 +41,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function card() {
+        return $this->hasOne(Card::class, 'user_id', 'id');
+    }
+
+    public function fullName() {
+        return $this->first_name . ' ' . $this->last_name;
+    }
 }
