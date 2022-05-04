@@ -75,7 +75,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->count(10)->create();
         Card::factory()->count(10)->create();
         Shop::factory()->count(10)->create();
-        Transaction::factory()->count(10)->create();
+        Transaction::factory()->count(100)->create();
         Message::factory()->count(100)->create();
     }
 }
