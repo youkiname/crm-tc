@@ -6,6 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class TransactionResource extends JsonResource
 {
+    public static $wrap = null;
 
     public function toArray($request)
     {
@@ -13,6 +14,7 @@ class TransactionResource extends JsonResource
             'seller' => new NestedUserResource($this->seller),
             'customer' => new NestedUserResource($this->customer),
             'shop' => [
+                'id' => $this->shop->id,
                 'name' => $this->shop->name,
                 'category' => $this->shop->category->name,
             ],  

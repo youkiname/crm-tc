@@ -23,6 +23,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('auth', [UserController::class, 'auth']);
+
 Route::resource('users', UserController::class);
 Route::resource('shops', ShopController::class);
 Route::resource('messages', MessageController::class);

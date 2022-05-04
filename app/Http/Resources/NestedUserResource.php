@@ -6,6 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class NestedUserResource extends JsonResource
 {
+    public static $wrap = null;
     /**
      * Short user's info
      */

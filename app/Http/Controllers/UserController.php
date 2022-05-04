@@ -18,6 +18,17 @@ class UserController extends Controller
         return new UsersResource($collection);
     }
 
+    public function auth(Request $request)
+    {
+        $user = User::where('email', $request->email)
+        ->where('password', $request->password)
+        ->first();
+        if(!$user) {
+            return [];
+        }
+        return new UserResource($user);
+    }
+
     public function create()
     {
         //

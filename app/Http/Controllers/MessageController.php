@@ -12,10 +12,16 @@ use App\Models\Message;
 class MessageController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        $collection = Message::paginate(15);
-        return new MessagesResource($collection);
+        $collection = Message::where('type_id', 1);
+        if($request->receiver_id) {
+            $collection->where('receiver_id', $request->receiver_id);
+        }
+        if($request->sender_id) {
+            $collection->where('sender_id', $request->sender_id);
+        }
+        return new MessagesResource($collection->paginate(15));
     }
 
     public function create()

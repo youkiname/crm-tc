@@ -6,6 +6,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class CardResource extends JsonResource
 {
+    public static $wrap = null;
+    
     public function toArray($request)
     {
         return [
