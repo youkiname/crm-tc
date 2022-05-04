@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('gender');
             $table->string('mobile');
             $table->Date('birth_date');
-            $table->string('email')->unique();
+            $table->string('email', 100)->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
