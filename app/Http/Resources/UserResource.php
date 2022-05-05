@@ -13,7 +13,11 @@ class UserResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->fullName(),
-            'card' => new CardResource($this->card)
+            'card' => new CardResource($this->card),
+            'role' => [
+                'id' => $this->role->id,
+                'name' => $this->role->name,
+            ]
         ];
     }
 }

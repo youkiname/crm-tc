@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
+use App\Models\Role;
 use App\Models\User;
 use App\Models\Shop;
 use App\Models\Card;
@@ -24,6 +25,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        Role::create([
+            'name' => 'customer'
+        ]);
+        Role::create([
+            'name' => 'manager'
+        ]);
+
         CardStatus::create([
             'name' => 'Bronze',
             'threshold' => 0,
@@ -72,9 +80,9 @@ class DatabaseSeeder extends Seeder
         ]);
         
 
-        User::factory()->count(10)->create();
-        Card::factory()->count(10)->create();
-        Shop::factory()->count(10)->create();
+        User::factory()->count(20)->create();
+        Card::factory()->count(20)->create();
+        Shop::factory()->count(20)->create();
         Transaction::factory()->count(100)->create();
         Message::factory()->count(100)->create();
     }

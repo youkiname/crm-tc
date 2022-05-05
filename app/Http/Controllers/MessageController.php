@@ -21,6 +21,9 @@ class MessageController extends Controller
         if($request->sender_id) {
             $collection->where('sender_id', $request->sender_id);
         }
+        if($request->order_by) {
+            $collection->orderBy($request->order_by);
+        }
         return new MessagesResource($collection->paginate(15));
     }
 

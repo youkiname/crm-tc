@@ -17,7 +17,6 @@ class MessageFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    
     public function definition()
     {
         return [

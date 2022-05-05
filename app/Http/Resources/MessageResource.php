@@ -16,6 +16,7 @@ class MessageResource extends JsonResource
             'type' => $this->messageType->name,
             'sender' => new NestedUserResource($this->sender),
             'receiver' => new NestedUserResource($this->receiver),
+            'created_at' => $this->created_at,
         ];
     }
 }
