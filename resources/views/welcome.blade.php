@@ -10,8 +10,8 @@
         <link rel="apple-touch-icon" href="/logo192.png"/>
         <link rel="manifest" href="/manifest.json"/>
         <title>React App</title>
-        <script defer="defer" src="/static/js/main.2847182d.js"></script>
-        <link href="/static/css/main.c2740baa.css" rel="stylesheet">
+        <script defer="defer" src="/static/js/main.914ced6d.js"></script>
+        <link href="/static/css/main.ca187aee.css" rel="stylesheet">
     </head>
     <body>
         <noscript>You need to enable JavaScript to run this app.</noscript>
