@@ -19,6 +19,7 @@ class UserResource extends JsonResource
                 'id' => $this->role->id,
                 'name' => $this->role->name,
             ],
+            'age' => $this->age(),
             'avatar_link' => 'https://picsum.photos/500/500',
         ];
     }
