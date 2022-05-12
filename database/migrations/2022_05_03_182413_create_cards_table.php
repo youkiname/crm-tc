@@ -18,7 +18,6 @@ return new class extends Migration
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string("number")->unique();
             $table->integer("bonuses_amount");
-            $table->foreignId('status_id')->references('id')->on('card_statuses');
             $table->timestamps();
         });
     }

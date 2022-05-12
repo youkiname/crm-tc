@@ -14,10 +14,12 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->fullName(),
             'card' => new CardResource($this->card),
+            'cashback' => $this->cashback,
             'role' => [
                 'id' => $this->role->id,
                 'name' => $this->role->name,
-            ]
+            ],
+            'avatar_link' => 'https://picsum.photos/500/500',
         ];
     }
 }

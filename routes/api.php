@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ShoppingCenterController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\TransactionController;
@@ -24,8 +25,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('auth', [UserController::class, 'auth']);
+Route::post('register', [UserController::class, 'register']);
 
 Route::resource('users', UserController::class);
+Route::resource('shopping_centers', ShoppingCenterController::class);
 Route::resource('shops', ShopController::class);
 Route::resource('messages', MessageController::class);
 Route::resource('transactions', TransactionController::class);

@@ -5,6 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 use App\Models\ShopCategory;
+use App\Models\ShoppingCenter;
 
 
 /**
@@ -23,6 +24,7 @@ class ShopFactory extends Factory
             "name" => $this->faker->company(),
             "cashback" => $this->faker->numberBetween($min = 5, $max = 20),
             'category_id' => ShopCategory::inRandomOrder()->first()->id,
+            'shopping_center_id' => ShoppingCenter::inRandomOrder()->first()->id,
         ];
     }
 }

@@ -9,8 +9,23 @@ class Card extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'threshold',
+        "number",
+        "bonuses_amount",
+    ];
+
     public function status()
     {
-        return $this->belongsTo(CardStatus::class, 'status_id', 'id');
+        $status = CardStatus::where('threshold', '<=', $this->bonuses_amount)
+        ->orderBy('threshold', 'desc')->first();
+        return $status;
+    }
+
+    public function nextStatus() {
+        $status = CardStatus::where('threshold', '>', $this->bonuses_amount)
+        ->orderBy('threshold', 'asc')->first();
+        return $status;
     }
 }

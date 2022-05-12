@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 
 use App\Models\Role;
 use App\Models\User;
+use App\Models\ShoppingCenter;
 use App\Models\Shop;
 use App\Models\Card;
 use App\Models\Transaction;
@@ -29,7 +30,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'customer'
         ]);
         Role::create([
-            'name' => 'manager'
+            'name' => 'seller'
         ]);
 
         CardStatus::create([
@@ -80,9 +81,10 @@ class DatabaseSeeder extends Seeder
         ]);
         
 
-        User::factory()->count(20)->create();
-        Card::factory()->count(20)->create();
-        Shop::factory()->count(20)->create();
+        User::factory()->count(50)->create();
+        Card::factory()->count(50)->create();
+        ShoppingCenter::factory()->count(10)->create();
+        Shop::factory()->count(50)->create();
         Transaction::factory()->count(100)->create();
         Message::factory()->count(100)->create();
     }
