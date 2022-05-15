@@ -16,8 +16,15 @@ use App\Models\Card;
 class UserController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->id) {
+            return $this->show($this->getUserById($request->id));
+        }
+        if ($request->card_number) {
+            return $this->show($this->getUserByCardNumber($request->card_number));
+        }
+        
         $collection = User::paginate(15);
         return new UsersResource($collection);
     }
@@ -28,7 +35,7 @@ class UserController extends Controller
         ->where('password', $request->password)
         ->first();
         if(!$user) {
-            return [];
+            $this->jsonAbort('User not found', 404);
         }
         return new UserResource($user);
     }
@@ -102,5 +109,21 @@ class UserController extends Controller
             }
         } while (false);
         return $code;
+    }
+
+    private function getUserByCardNumber($cardNumber) {
+        $card = Card::where('number', $cardNumber)->first();
+        if (!$card) {
+            $this->jsonAbort('User not found', 404);
+        }
+        return $card->user;
+    }
+
+    private function getUserById($id) {
+        $user = User::find($id);
+        if (!$user) {
+            $this->jsonAbort('User not found', 404);
+        }
+        return $user;
     }
 }

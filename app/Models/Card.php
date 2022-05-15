@@ -16,6 +16,11 @@ class Card extends Model
         "bonuses_amount",
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
     public function status()
     {
         $status = CardStatus::where('threshold', '<=', $this->bonuses_amount)
