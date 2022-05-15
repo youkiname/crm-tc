@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CardController;
 use App\Http\Controllers\ShoppingCenterController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\MessageController;
@@ -26,6 +27,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('auth', [UserController::class, 'auth']);
 Route::post('register', [UserController::class, 'register']);
+
+Route::get('users/update_bonuses', [CardController::class, 'updateBonuses']);
+Route::get('cards/update_bonuses', [CardController::class, 'updateBonuses']);
 
 Route::resource('users', UserController::class);
 Route::resource('shopping_centers', ShoppingCenterController::class);
