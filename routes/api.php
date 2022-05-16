@@ -10,6 +10,7 @@ use App\Http\Controllers\ShoppingCenterController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\AdsBannerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,3 +42,4 @@ Route::resource('shopping_centers', ShoppingCenterController::class);
 Route::resource('shops', ShopController::class);
 Route::resource('messages', MessageController::class);
 Route::resource('transactions', TransactionController::class);
+Route::resource('banners', AdsBannerController::class);

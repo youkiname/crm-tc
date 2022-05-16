@@ -16,6 +16,7 @@ use App\Models\Message;
 use App\Models\CardStatus;
 use App\Models\ShopCategory;
 use App\Models\MessageType;
+use App\Models\AdsBanner;
 
 class DatabaseSeeder extends Seeder
 {
@@ -87,5 +88,12 @@ class DatabaseSeeder extends Seeder
         Shop::factory()->count(50)->create();
         Transaction::factory()->count(100)->create();
         Message::factory()->count(100)->create();
+
+        for ($i = 1; $i <= 6; $i++) {
+            AdsBanner::create([
+                'image_link' => '/static/banners/' . $i . '.jpg',
+                'link' => 'google.com',
+            ]);
+        }
     }
 }
