@@ -27,9 +27,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('auth', [UserController::class, 'auth']);
-Route::get('register', [UserController::class, 'register']);
+Route::post('register', [UserController::class, 'register']);
 
-Route::get('users/verify_email', [VerificationController::class, 'verify']);
+Route::post('users/verify_email', [VerificationController::class, 'verify']);
 
 Route::post('users/update_profile', [UserController::class, 'updateProfile']);
 
