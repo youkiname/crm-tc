@@ -24,7 +24,7 @@ class MessageController extends Controller
         if($request->order_by) {
             $collection->orderBy($request->order_by);
         }
-        return new MessagesResource($collection->paginate(15));
+        return new MessagesResource($collection->get());
     }
 
     public function create()

@@ -13,7 +13,7 @@ class ShopController extends Controller
 {
     public function index()
     {
-        $collection = Shop::paginate(15);
+        $collection = Shop::all();
         return new ShopsResource($collection);
     }
 

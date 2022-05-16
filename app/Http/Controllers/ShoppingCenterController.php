@@ -14,7 +14,7 @@ class ShoppingCenterController extends Controller
 
     public function index()
     {
-        $collection = ShoppingCenter::paginate(15);
+        $collection = ShoppingCenter::all();
         return new ShoppingCentersResource($collection);
     }
 

@@ -24,7 +24,7 @@ class TransactionController extends Controller
         if($request->shop_id) {
             $collection->where('shop_id', $request->shop_id);
         }
-        return new TransactionsResource($collection->paginate(15));
+        return new TransactionsResource($collection->get());
     }
 
     public function create()

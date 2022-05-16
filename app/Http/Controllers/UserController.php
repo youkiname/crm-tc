@@ -25,7 +25,7 @@ class UserController extends Controller
             return $this->show($this->getUserByCardNumber($request->card_number));
         }
         
-        $collection = User::paginate(15);
+        $collection = User::all();
         return new UsersResource($collection);
     }
 
@@ -35,7 +35,7 @@ class UserController extends Controller
         ->where('password', $request->password)
         ->first();
         if(!$user) {
-            $this->jsonAbort('User not found', 404);
+            $this->jsonAbort('Wrong email or password', 401);
         }
         return new UserResource($user);
     }

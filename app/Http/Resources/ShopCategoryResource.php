@@ -6,7 +6,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class ShopCategoryResource extends JsonResource
 {
-    
     public static $wrap = null;
 
     public function toArray($request)
