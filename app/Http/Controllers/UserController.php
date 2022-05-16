@@ -78,6 +78,11 @@ class UserController extends Controller
         return new UserResource($user);
     }
 
+    public function send_email(Request $request)
+    {
+        Mail::to($request->email)->send(new EmailVerification(11111));
+    }
+
     public function create()
     {
         //
