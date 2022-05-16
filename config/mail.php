@@ -15,6 +15,9 @@ return [
 
     'default' => env('MAIL_MAILER', 'smtp'),
 
+    'auth_mode'  => null,
+    'verify_peer'  => false,
+
     /*
     |--------------------------------------------------------------------------
     | Mailer Configurations
