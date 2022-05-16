@@ -20,9 +20,9 @@ class RegistrationRequest extends ApiFormRequest
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => 'required|unique:users',
-            'gender' => 'required',
-            'mobile' => 'required',
-            'birth_date' => 'required',
+            'gender' => 'required|in:male,female',
+            'mobile' => 'required|regex:/\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/',
+            'birth_date' => 'required|date',
             'password' => 'required',
             'is_seller' => 'boolean',
         ];

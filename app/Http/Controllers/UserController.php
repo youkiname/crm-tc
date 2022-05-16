@@ -5,13 +5,20 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\AuthRequest;
 use App\Http\Requests\RegistrationRequest;
+use App\Http\Requests\UpdateProfileRequest;
+
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\EmailVerification;
 
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UsersResource;
 
 use App\Models\User;
+use App\Models\VerificationCode;
 use App\Models\Card;
+
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -67,6 +74,7 @@ class UserController extends Controller
             'bonuses_amount' => 0,
             'status_id' => 1
         ]);
+        $this->sendVerificationEmail($user);
         return new UserResource($user);
     }
 
@@ -90,9 +98,26 @@ class UserController extends Controller
         //
     }
 
-    public function update(Request $request, $id)
+    public function updateProfile(UpdateProfileRequest $request)
     {
-        //
+        $user = User::find($request->id);
+        if ($request->first_name) {
+            $user->first_name = $request->first_name;
+        }
+        if ($request->last_name) {
+            $user->last_name = $request->last_name;
+        }
+        if ($request->birth_date) {
+            $user->birth_date = $request->birth_date;
+        }
+        if ($request->gender) {
+            $user->gender = $request->gender;
+        }
+        if ($request->mobile) {
+            $user->mobile = $request->mobile;
+        }
+        $user->save();
+        return new UserResource($user);
     }
 
     public function destroy($id)
@@ -125,5 +150,22 @@ class UserController extends Controller
             $this->jsonAbort('User not found', 404);
         }
         return $user;
+    }
+
+    private function sendVerificationEmail($user) {
+        $code = $this->generateVerificationCode();
+        VerificationCode::create([
+            'user_id' => $user->id,
+            'code' => $code,
+            'expires_at' => Carbon::tomorrow(),
+        ]);
+        Mail::to($user->email)->send(new EmailVerification($code));
+    }
+
+    private function generateVerificationCode() {
+        do {
+            $code = random_int(10000, 99999);
+        } while (false);
+        return $code;
     }
 }

@@ -13,6 +13,7 @@ class UserResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->fullName(),
+            'mobile' => $this->mobile,
             'card' => new CardResource($this->card),
             'cashback' => $this->cashback,
             'role' => [
@@ -20,6 +21,7 @@ class UserResource extends JsonResource
                 'name' => $this->role->name,
             ],
             'age' => $this->age(),
+            'is_email_verified' => $this->isEmailVerified(),
             'avatar_link' => 'https://picsum.photos/500/500',
         ];
     }
