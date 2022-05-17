@@ -12,7 +12,7 @@ class VerificationRequest extends ApiFormRequest
     public function rules()
     {
         return [
-            'user_id' => 'required|integer|exists:users,id',
+            'email' => 'required|email|exists:users,email',
             'code' => 'required|integer'
         ];
     }
