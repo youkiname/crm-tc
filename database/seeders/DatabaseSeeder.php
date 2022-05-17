@@ -82,12 +82,11 @@ class DatabaseSeeder extends Seeder
         ]);
         
 
-        User::factory()->count(50)->create();
-        Card::factory()->count(50)->create();
+        User::factory()->count(10)->create();
+        Card::factory()->count(10)->create();
         ShoppingCenter::factory()->count(10)->create();
         Shop::factory()->count(50)->create();
         Transaction::factory()->count(100)->create();
-        Message::factory()->count(100)->create();
 
         for ($i = 1; $i <= 6; $i++) {
             AdsBanner::create([

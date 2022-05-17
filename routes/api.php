@@ -11,6 +11,7 @@ use App\Http\Controllers\ShopController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\AdsBannerController;
+use App\Http\Controllers\PollController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,3 +45,7 @@ Route::resource('shops', ShopController::class);
 Route::resource('messages', MessageController::class);
 Route::resource('transactions', TransactionController::class);
 Route::resource('banners', AdsBannerController::class);
+
+Route::post('polls/make_choice', [PollController::class, 'makeChoice']);
+Route::get('polls/chats/', [PollController::class, 'getChats']);
+Route::resource('polls', PollController::class);
