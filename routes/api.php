@@ -47,5 +47,5 @@ Route::resource('transactions', TransactionController::class);
 Route::resource('banners', AdsBannerController::class);
 
 Route::post('polls/make_choice', [PollController::class, 'makeChoice']);
-Route::get('polls/chats/', [PollController::class, 'getChats']);
+Route::get('polls/shopping_centers/', [PollController::class, 'getCenters']);
 Route::resource('polls', PollController::class);

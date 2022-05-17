@@ -28,7 +28,7 @@ class PollController extends Controller
         return new PollsResource($collection);
     }
 
-    public function getChats(Request $request) {
+    public function getCenters(Request $request) {
         $centers = ShoppingCenter::whereIn('id', function($query) {
             $query->select('shopping_center_id')->from('polls');
         })->get();
