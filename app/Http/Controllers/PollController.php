@@ -37,6 +37,11 @@ class PollController extends Controller
     }
 
     public function makeChoice(MakeChoiceRequest $request) {
+        $exists = PollVote::where('user_id', $request->user_id)
+        ->where('poll_id', $request->poll_id)->exists();
+        if ($exists) {
+            $this->jsonAbort('Already voted');
+        }
         PollVote::create([
             'poll_id' => $request->poll_id,
             'choice_id' => $request->choice_id,
