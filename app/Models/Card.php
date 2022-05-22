@@ -11,10 +11,16 @@ class Card extends Model
 
     protected $fillable = [
         'user_id',
+        'shopping_center_id',
         'threshold',
         "number",
         "bonuses_amount",
     ];
+
+    public function shoppingCenter()
+    {
+        return $this->belongsTo(ShoppingCenter::class, 'shopping_center_id', 'id');
+    }
 
     public function user()
     {

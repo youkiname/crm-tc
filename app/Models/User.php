@@ -69,8 +69,12 @@ class User extends Authenticatable
         return $this->role_id == 2;
     }
 
-    public function card() {
-        return $this->hasOne(Card::class, 'user_id', 'id');
+    public function card($shoppingCenterId = 1) {
+        $card = Card::where('user_id', $this->id);
+        if ($shoppingCenterId) {
+            $card->where('shopping_center_id', $shoppingCenterId);
+        }
+        return $card->first();
     }
 
     public function fullName() {

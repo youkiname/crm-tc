@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('cards', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('shopping_center_id')->references('id')->on('shopping_centers')->onDelete('cascade');
             $table->string("number")->unique();
             $table->integer("bonuses_amount");
             $table->timestamps();

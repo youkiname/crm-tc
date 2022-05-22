@@ -16,7 +16,7 @@ class UserResource extends JsonResource
             'last_name' => $this->last_name,
             'email' => $this->email,
             'mobile' => $this->mobile,
-            'card' => new CardResource($this->card),
+            'card' => new CardResource($this->card($request->shopping_center_id)),
             'cashback' => $this->cashback,
             'role' => [
                 'id' => $this->role->id,
