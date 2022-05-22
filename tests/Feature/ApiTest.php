@@ -87,13 +87,22 @@ class ApiTest extends TestCase
 
 
         $randomChoice = PollChoice::inRandomOrder()->first();
+        $userId = User::inRandomOrder()->first()->id;
         $response = $this->post('/api/polls/make_choice',
         [
-            'user_id' => User::inRandomOrder()->first()->id,
+            'user_id' => $userId,
             'poll_id' => $randomChoice->poll->id,
             'choice_id' => $randomChoice->id,
         ]);
         $response->assertStatus(200);
+
+        $response = $this->post('/api/polls/make_choice',
+        [
+            'user_id' => $userId,
+            'poll_id' => $randomChoice->poll->id,
+            'choice_id' => $randomChoice->id,
+        ]);
+        $response->assertStatus(409);
     }
 
     public function testShops()
