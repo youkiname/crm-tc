@@ -40,7 +40,7 @@ class PollController extends Controller
         $exists = PollVote::where('user_id', $request->user_id)
         ->where('poll_id', $request->poll_id)->exists();
         if ($exists) {
-            $this->jsonAbort('Already voted');
+            $this->jsonAbort('Already voted', 409);
         }
         PollVote::create([
             'poll_id' => $request->poll_id,
