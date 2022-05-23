@@ -45,7 +45,7 @@ class PollController extends Controller
             (SELECT polls.shopping_center_id FROM polls 
              GROUP BY polls.shopping_center_id)
             ORDER BY unselected_polls_amount DESC
-             ', [$request->user_id])
+             '), [$request->user_id]
         );
         return new NestedShoppingCenters($centers);
     }
