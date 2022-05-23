@@ -14,7 +14,7 @@ class AdsBannerSeeder extends Seeder
         for ($i = 1; $i <= 6; $i++) {
             AdsBanner::create([
                 'image_link' => '/static/banners/' . $i . '.jpg',
-                'link' => 'google.com',
+                'link' => 'https://top-sistem.ru',
             ]);
         }
     }
