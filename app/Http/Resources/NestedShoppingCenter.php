@@ -20,17 +20,8 @@ class NestedShoppingCenter extends JsonResource
             'avatar_link' => 'https://picsum.photos/500/500',
         ];
         if ($request->user_id) {
-            $data['unselected_polls_amount'] = $this->getUnselectedPollsAmount($request);
+            $data['unselected_polls_amount'] = $this->unselected_polls_amount;
         }
         return $data;
-    }
-
-    private function getUnselectedPollsAmount($request) {
-        $votes_amount = PollVote::select('poll_id')
-        ->where('user_id', $request->user_id)
-        ->groupBy('poll_id')
-        ->count();
-        $poll_amount = Poll::where('shopping_center_id', $this->id)->count();
-        return $poll_amount - $votes_amount;
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\MakeChoiceRequest;
@@ -29,11 +30,24 @@ class PollController extends Controller
     }
 
     public function getCenters(Request $request) {
-        $centers = ShoppingCenter::whereIn('id', function($query) {
-            $query->select('shopping_center_id')->from('polls');
-        })->get();
-
-    return new NestedShoppingCenters($centers);
+        // Выбираем все ТЦ, для которых есть опросы
+        // + добавляем к ним поле unselected_polls_amount, в котором 
+        // содержится кол-во опросов для этого тц, которые пользователь не прошёл.
+        $centers = DB::select(
+            DB::raw('SELECT *, (
+            SELECT count(*) FROM `polls` 
+            WHERE polls.shopping_center_id = shopping_centers.id AND polls.id NOT IN 
+                (SELECT poll_votes.poll_id FROM poll_votes 
+                 WHERE poll_votes.user_id=? 
+                 GROUP BY poll_votes.poll_id)
+            ) as unselected_polls_amount 
+            FROM shopping_centers WHERE id IN 
+            (SELECT polls.shopping_center_id FROM polls 
+             GROUP BY polls.shopping_center_id)
+            ORDER BY unselected_polls_amount DESC
+             ', [$request->user_id])
+        );
+        return new NestedShoppingCenters($centers);
     }
 
     public function makeChoice(MakeChoiceRequest $request) {
