@@ -17,6 +17,7 @@ use App\Http\Resources\UsersResource;
 use App\Models\User;
 use App\Models\VerificationCode;
 use App\Models\Card;
+use App\Models\ShoppingCenter;
 
 use Carbon\Carbon;
 
@@ -68,12 +69,16 @@ class UserController extends Controller
             $user->cashback = random_int(5, 30);
         }
 
-        Card::create([
-            'user_id' => $user->id,
-            'number' => $this->generateCardNumber(),
-            'bonuses_amount' => 0,
-            'status_id' => 1
-        ]);
+
+        for($i=1; $i<=ShoppingCenter::count(); $i++) {
+            Card::create([
+                'user_id' => $user->id,
+                'shopping_center_id' => $i,
+                'number' => $this->generateCardNumber(),
+                'bonuses_amount' => 0,
+                'status_id' => 1
+            ]);
+        }
         $this->sendVerificationEmail($user);
         return new UserResource($user);
     }
