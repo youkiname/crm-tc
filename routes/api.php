@@ -29,10 +29,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('auth', [UserController::class, 'auth']);
-Route::get('send_email', [UserController::class, 'send_email']);
 Route::post('register', [UserController::class, 'register']);
 
 Route::post('users/verify_email', [VerificationController::class, 'verify']);
+Route::post('users/reset_password', [UserController::class, 'resetPassword']);
+Route::get('users/verify_password_reset', [UserController::class, 'verifyPasswordReset']);
+Route::post('users/update_password', [UserController::class, 'updatePassword']);
 
 Route::post('users/update_profile', [UserController::class, 'updateProfile']);
 

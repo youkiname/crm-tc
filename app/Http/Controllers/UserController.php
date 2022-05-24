@@ -4,18 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\AuthRequest;
+use App\Http\Requests\ResetPasswordRequest;
+use App\Http\Requests\VerifyResetPasswordRequest;
 use App\Http\Requests\RegistrationRequest;
 use App\Http\Requests\UpdateProfileRequest;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EmailVerification;
+use App\Mail\ResetPasswordMail;
 
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UsersResource;
 
 use App\Models\User;
 use App\Models\VerificationCode;
+use App\Models\ResetPasswordCode;
 use App\Models\Card;
 use App\Models\ShoppingCenter;
 
@@ -42,10 +46,47 @@ class UserController extends Controller
         $user = User::where('email', $request->email)
         ->where('password', $request->password)
         ->first();
-        if(!$user) {
-            $this->jsonAbort('Wrong email or password', 401);
-        }
         return new UserResource($user);
+    }
+
+    public function resetPassword(ResetPasswordRequest $request)
+    {
+        $user = User::where('email', $request->email)->first();
+        $this->sendResetPasswordMail($user);
+        return response()->json([
+            'success' => true,
+        ]);
+    }
+
+    public function verifyPasswordReset(VerifyResetPasswordRequest $request) {
+        $code = ResetPasswordCode::where('email', $request->email)
+        ->where('code', $request->code)
+        ->first();
+
+        if (!$code) {
+            $this->jsonAbort('Wrong code', 404);
+        }
+        return response()->json([
+            'success' => true,
+        ]);
+    }
+
+    public function updatePassword(UpdatePasswordRequest $request) {
+        $code = ResetPasswordCode::where('email', $request->email)
+        ->where('code', $request->code)
+        ->first();
+        if (!$code) {
+            $this->jsonAbort('Wrong code', 404);
+        }
+
+        $user = User::where('email', $request->email)->first();
+        $user->password = $request->new_password;
+        $user->save();
+        ResetPasswordCode::where('email', $request->email)->delete();
+        
+        return response()->json([
+            'success' => true,
+        ]);
     }
 
     public function register(RegistrationRequest $request)
@@ -79,13 +120,8 @@ class UserController extends Controller
                 'status_id' => 1
             ]);
         }
-        $this->sendVerificationEmail($user);
+        $this->sendVerificationMail($user);
         return new UserResource($user);
-    }
-
-    public function send_email(Request $request)
-    {
-        Mail::to($request->email)->send(new EmailVerification(11111));
     }
 
     public function create()
@@ -138,10 +174,7 @@ class UserController extends Controller
     private function generateCardNumber() {
         $chars = '01234567890';
         do {
-            $code = '';
-            for ($x = 0; $x < 16; $x++) {
-                $code .= $chars[ rand(0, strlen($chars)-1) ];
-            }
+            $code = $this->generateCode(16);
         } while (false);
         return $code;
     }
@@ -162,7 +195,7 @@ class UserController extends Controller
         return $user;
     }
 
-    private function sendVerificationEmail($user) {
+    private function sendVerificationMail($user) {
         $code = $this->generateVerificationCode();
         VerificationCode::create([
             'user_id' => $user->id,
@@ -172,10 +205,28 @@ class UserController extends Controller
         Mail::to($user->email)->send(new EmailVerification($code));
     }
 
+    private function sendResetPasswordMail($user) {
+        $code = $this->generateCode(5);
+        ResetPasswordCode::create([
+            'email' => $user->email,
+            'code' => $code,
+            'expires_at' => Carbon::tomorrow(),
+        ]);
+        Mail::to($user->email)->send(new ResetPasswordMail($code));
+    }
+
     private function generateVerificationCode() {
         do {
             $code = random_int(10000, 99999);
         } while (false);
+        return $code;
+    }
+
+    private function generateCode($n) {
+        $code = '';
+        for ($x = 0; $x < $n; $x++) {
+            $code .= $chars[ rand(0, strlen($chars)-1) ];
+        }
         return $code;
     }
 }

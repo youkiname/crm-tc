@@ -2,7 +2,8 @@
 
 namespace App\Http\Requests;
 
-class AuthRequest extends ApiFormRequest
+
+class VerifyResetPasswordRequest extends ApiFormRequest
 {
     public function authorize()
     {
@@ -13,7 +14,7 @@ class AuthRequest extends ApiFormRequest
     {
         return [
             'email' => 'required|email|exists:users,email',
-            'password' => 'required',
+            'code' => 'required'
         ];
     }
 }
