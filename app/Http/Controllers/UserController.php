@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\AuthRequest;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\VerifyResetPasswordRequest;
+use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Requests\RegistrationRequest;
 use App\Http\Requests\UpdateProfileRequest;
 
