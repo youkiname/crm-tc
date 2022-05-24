@@ -172,7 +172,6 @@ class UserController extends Controller
     }
 
     private function generateCardNumber() {
-        $chars = '01234567890';
         do {
             $code = $this->generateCode(16);
         } while (false);
@@ -223,6 +222,7 @@ class UserController extends Controller
     }
 
     private function generateCode($n) {
+        $chars = '01234567890';
         $code = '';
         for ($x = 0; $x < $n; $x++) {
             $code .= $chars[ rand(0, strlen($chars)-1) ];
