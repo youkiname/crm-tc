@@ -12,5 +12,15 @@ class UserSeeder extends Seeder
     public function run()
     {
         User::factory()->count(1)->create();
+        User::create([
+            'first_name' => "Vadim",
+            'last_name' => "Voronov",
+            'email' => "vadimv0810@gmail.com",
+            'gender' => "male",
+            'mobile' => "+79998887766",
+            'birth_date' => "1999-08-22",
+            'password' => '123123123',
+            'role_id' => 1,
+        ]);
     }
 }

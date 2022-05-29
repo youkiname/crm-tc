@@ -16,6 +16,7 @@ use App\Mail\EmailVerification;
 use App\Mail\ResetPasswordMail;
 
 use App\Http\Resources\UserResource;
+use App\Http\Resources\AuthenticatedUserResource;
 use App\Http\Resources\UsersResource;
 
 use App\Models\User;
@@ -47,7 +48,11 @@ class UserController extends Controller
         $user = User::where('email', $request->email)
         ->where('password', $request->password)
         ->first();
-        return new UserResource($user);
+        if (!$user) {
+            $this->jsonAbort('Wrong email or password', 401);
+        }
+        $token = $user->createToken('api_token')->plainTextToken;
+        return AuthenticatedUserResource::make($user)->addToken($token);
     }
 
     public function resetPassword(ResetPasswordRequest $request)
