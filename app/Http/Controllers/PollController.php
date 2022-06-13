@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\MakeChoiceRequest;
+use App\Http\Requests\CreatePollRequest;
 
 use App\Http\Resources\PollResource;
 use App\Http\Resources\PollsResource;
@@ -72,9 +73,20 @@ class PollController extends Controller
         //
     }
 
-    public function store(Request $request)
+    public function store(CreatePollRequest $request)
     {
-        //
+        $poll = Poll::create([
+            'shopping_center_id' => $request->shopping_center_id,
+            'title' => $request->title,
+            'description' => $request->description ?? '',
+        ]);
+        foreach ($request->choices as $choice) {
+            PollChoice::create([
+                'poll_id' => $poll->id,
+                'title' => $choice
+            ]);
+        }
+        return new PollResource($poll);
     }
 
     public function show(Poll $poll)
@@ -94,6 +106,9 @@ class PollController extends Controller
 
     public function destroy($id)
     {
-        //
+        Poll::where('id', $id)->delete();
+        return response()->json([
+            'success' => true,
+        ]);
     }
 }
