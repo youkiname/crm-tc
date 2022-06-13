@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\CreateShoppingCenterRequest;
+
 
 use App\Http\Resources\ShoppingCenterResource;
 use App\Http\Resources\ShoppingCentersResource;
@@ -23,9 +25,16 @@ class ShoppingCenterController extends Controller
         //
     }
 
-    public function store(Request $request)
+    public function store(CreateShoppingCenterRequest $request)
     {
-        //
+        $center = ShoppingCenter::create([
+            'name' => $request->name,
+            'description' => $request->description ?? '',
+            'address' => $request->address,
+            'city' => $request->city,
+            'coordinates' => $request->lat . ";" > $request->long,
+        ]);
+        return new ShoppingCenterResource($center);
     }
 
     public function show(ShoppingCenter $shoppingCenter)
@@ -45,6 +54,9 @@ class ShoppingCenterController extends Controller
 
     public function destroy($id)
     {
-        //
+        ShoppingCenter::where('id', $id)->delete();
+        return response()->json([
+            'success' => true,
+        ]);
     }
 }
