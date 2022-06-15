@@ -11,7 +11,7 @@ class PollChoiceResource extends JsonResource
     
     public function toArray($request)
     {
-        $selected = PollVote::where('user_id', $request->user_id)
+        $selected = PollVote::where('user_id', $request->user()->id)
         ->where('choice_id', $this->id)
         ->exists();
         return [

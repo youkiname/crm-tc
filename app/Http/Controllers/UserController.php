@@ -146,7 +146,7 @@ class UserController extends Controller
 
     public function updateProfile(UpdateProfileRequest $request)
     {
-        $user = User::find($request->id);
+        $user = $request->user();
         if ($request->first_name) {
             $user->first_name = $request->first_name;
         }

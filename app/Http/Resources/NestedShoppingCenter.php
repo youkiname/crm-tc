@@ -19,7 +19,7 @@ class NestedShoppingCenter extends JsonResource
             'description' => $this->description,
             'avatar_link' => 'https://picsum.photos/500/500',
         ];
-        if ($request->user_id) {
+        if ($this->unselected_polls_amount) {
             $data['unselected_polls_amount'] = $this->unselected_polls_amount;
         }
         return $data;

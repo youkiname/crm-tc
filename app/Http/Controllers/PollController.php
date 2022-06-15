@@ -46,13 +46,13 @@ class PollController extends Controller
             (SELECT polls.shopping_center_id FROM polls 
              GROUP BY polls.shopping_center_id)
             ORDER BY unselected_polls_amount DESC
-             '), [$request->user_id]
+             '), [$request->user()->id]
         );
         return new NestedShoppingCenters($centers);
     }
 
     public function makeChoice(MakeChoiceRequest $request) {
-        $exists = PollVote::where('user_id', $request->user_id)
+        $exists = PollVote::where('user_id', $request->user()->id)
         ->where('poll_id', $request->poll_id)->exists();
         if ($exists) {
             $this->jsonAbort('Already voted', 409);
@@ -60,7 +60,7 @@ class PollController extends Controller
         PollVote::create([
             'poll_id' => $request->poll_id,
             'choice_id' => $request->choice_id,
-            'user_id' => $request->user_id,
+            'user_id' => $request->user()->id,
         ]);
 
         return $this->jsonSuccess();

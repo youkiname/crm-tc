@@ -13,7 +13,7 @@ class PollResource extends JsonResource
     public function toArray($request)
     {
         $selected = PollVote::where('poll_id', $this->id)
-        ->where('user_id', $request->user_id)->exists();
+        ->where('user_id', $request->user()->id)->exists();
         return [
             'id' => $this->id,
             'shopping_center' => new NestedShoppingCenter($this->shoppingCenter),
