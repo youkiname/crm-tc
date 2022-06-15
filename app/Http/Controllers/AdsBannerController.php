@@ -54,9 +54,7 @@ class AdsBannerController extends Controller
     public function destroy($id)
     {
         AdsBanner::where('id', $id)->delete();
-        return response()->json([
-            'success' => true,
-        ]);
+        return $this->jsonSuccess();
     }
 
     private function storeImage($request) {

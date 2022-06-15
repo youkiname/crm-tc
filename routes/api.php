@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\CardController;
+use App\Http\Controllers\CardStatusController;
 use App\Http\Controllers\ShoppingCenterController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\MessageController;
@@ -42,6 +43,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('cards/update_bonuses', [CardController::class, 'updateBonuses']);
 
     Route::resource('users', UserController::class);
+    Route::resource('card_statuses', CardStatusController::class);
     Route::resource('shopping_centers', ShoppingCenterController::class);
     Route::resource('shops', ShopController::class);
     Route::resource('messages', MessageController::class);

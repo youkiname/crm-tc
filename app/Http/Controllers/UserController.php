@@ -59,9 +59,7 @@ class UserController extends Controller
     {
         $user = User::where('email', $request->email)->first();
         $this->sendResetPasswordMail($user);
-        return response()->json([
-            'success' => true,
-        ]);
+        return $this->jsonSuccess();
     }
 
     public function verifyPasswordReset(VerifyResetPasswordRequest $request) {
@@ -72,9 +70,7 @@ class UserController extends Controller
         if (!$code) {
             $this->jsonAbort('Wrong code', 404);
         }
-        return response()->json([
-            'success' => true,
-        ]);
+        return $this->jsonSuccess();
     }
 
     public function updatePassword(UpdatePasswordRequest $request) {
@@ -90,9 +86,7 @@ class UserController extends Controller
         $user->save();
         ResetPasswordCode::where('email', $request->email)->delete();
         
-        return response()->json([
-            'success' => true,
-        ]);
+        return $this->jsonSuccess();
     }
 
     public function register(RegistrationRequest $request)

@@ -63,9 +63,7 @@ class PollController extends Controller
             'user_id' => $request->user_id,
         ]);
 
-        return response()->json([
-            'success' => true,
-        ]);
+        return $this->jsonSuccess();
     }
 
     public function create()
@@ -107,8 +105,6 @@ class PollController extends Controller
     public function destroy($id)
     {
         Poll::where('id', $id)->delete();
-        return response()->json([
-            'success' => true,
-        ]);
+        return $this->jsonSuccess();
     }
 }

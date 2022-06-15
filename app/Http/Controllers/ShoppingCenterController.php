@@ -55,8 +55,6 @@ class ShoppingCenterController extends Controller
     public function destroy($id)
     {
         ShoppingCenter::where('id', $id)->delete();
-        return response()->json([
-            'success' => true,
-        ]);
+        return $this->jsonSuccess();
     }
 }

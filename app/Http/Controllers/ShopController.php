@@ -53,8 +53,6 @@ class ShopController extends Controller
     public function destroy($id)
     {
         Shop::where('id', $id)->delete();
-        return response()->json([
-            'success' => true,
-        ]);
+        return $this->jsonSuccess();
     }
 }

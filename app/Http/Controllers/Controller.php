@@ -15,4 +15,10 @@ class Controller extends BaseController
         $errors = ['errors' => $message];
         abort(response()->json($errors, $code));
     }
+
+    protected function jsonSuccess() {
+        return response()->json([
+            'success' => true,
+        ]);
+    }
 }

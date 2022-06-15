@@ -23,8 +23,6 @@ class VerificationController extends Controller
         $user->save();
         
         VerificationCode::where('user_id', $user->id)->delete();
-        return response()->json([
-            'success' => true,
-        ]);
+        return $this->jsonSuccess();
     }
 }
