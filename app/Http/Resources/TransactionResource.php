@@ -17,7 +17,9 @@ class TransactionResource extends JsonResource
                 'id' => $this->shop->id,
                 'name' => $this->shop->name,
                 'category' => $this->shop->category->name,
-            ],  
+            ], 
+            'shopping_center' => new NestedShoppingCenter($this->shoppingCenter),
+            'bonuses_offset' => $this->bonuses_offset,
             'amount' => $this->amount,  
         ];
     }

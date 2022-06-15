@@ -17,7 +17,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('seller_id')->nullable()->references('id')->on('users')->onDelete('set null');
             $table->foreignId('customer_id')->nullable()->references('id')->on('users')->onDelete('set null');
+            $table->foreignId('shopping_center_id')->nullable()->references('id')->on('shopping_centers')->onDelete('set null');
             $table->foreignId('shop_id')->nullable()->references('id')->on('shops')->onDelete('set null');
+            $table->integer("bonuses_offset");
             $table->integer("amount");
             $table->timestamps();
         });

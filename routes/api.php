@@ -47,11 +47,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('shopping_centers', ShoppingCenterController::class);
     Route::resource('shops', ShopController::class);
     Route::resource('messages', MessageController::class);
+    Route::resource('transactions/amount', [TransactionController::class, 'getAmount']);
     Route::resource('transactions', TransactionController::class);
     Route::resource('banners', AdsBannerController::class);
 
     Route::post('polls/make_choice', [PollController::class, 'makeChoice']);
-    Route::get('polls/shopping_centers/', [PollController::class, 'getCenters']);
+    Route::get('polls/shopping_centers', [PollController::class, 'getCenters']);
     Route::resource('polls', PollController::class);
 });
 

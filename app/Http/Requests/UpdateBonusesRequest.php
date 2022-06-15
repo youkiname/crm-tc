@@ -15,6 +15,9 @@ class UpdateBonusesRequest extends ApiFormRequest
         return [
             'card_number' => 'required|exists:cards,number',
             'offset' => 'required|integer',
+            'shopping_center_id' => 'required|integer|exists:shopping_centers,id',
+            'shop_id' => 'required|integer|exists:shops,id',
+            'seller_id' => 'required|integer|exists:users,id'
         ];
     }
 }
