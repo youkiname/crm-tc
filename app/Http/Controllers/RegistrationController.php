@@ -13,6 +13,8 @@ use App\Http\Resources\UserResource;
 
 use App\Models\User;
 
+use Carbon\Carbon;
+
 class RegistrationController extends Controller
 {
     public function register(RegistrationRequest $request)
