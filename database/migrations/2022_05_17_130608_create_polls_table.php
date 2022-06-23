@@ -13,6 +13,7 @@ return new class extends Migration
             $table->foreignId('shopping_center_id')->nullable()->references('id')->on('shopping_centers')->onDelete('set null');
             $table->string('title');
             $table->string('description');
+            $table->boolean('is_active')->default(1);
             $table->timestamps();
         });
     }
