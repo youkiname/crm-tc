@@ -31,7 +31,7 @@ class AdsBannerController extends Controller
     {
         $banner = AdsBanner::create([
             'link' => $request->link,
-            'image_link' => $this->storeImage($request)
+            'image_link' => $this->storeImage($request->file('image'), 'static/banners')
         ]);
         return new AdsBannerResource($banner);
     }
@@ -55,12 +55,5 @@ class AdsBannerController extends Controller
     {
         AdsBanner::where('id', $id)->delete();
         return $this->jsonSuccess();
-    }
-
-    private function storeImage($request) {
-        $file = $request->file('image');
-        $filename = date('YmdHi').$file->getClientOriginalName();
-        $file->move(public_path('static/banners'), $filename);
-        return '/static/banners/' . $filename;
     }
 }

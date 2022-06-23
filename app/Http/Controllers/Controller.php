@@ -30,4 +30,12 @@ class Controller extends BaseController
         }
         return $code;
     }
+
+    private function storeImage($requestFile, $directory) {
+        $file = $request->file('image');
+        $filename = date('YmdHi').$file->getClientOriginalName();
+        $file->move(public_path($directory), $filename);
+        $result = '/' . $directory . '/' . $filename;
+        return str_replace('//', '/', $result);
+    }
 }
