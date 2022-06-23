@@ -36,11 +36,6 @@ class UserController extends Controller
         return new UsersResource($collection);
     }
 
-    public function create()
-    {
-        //
-    }
-
     public function store(Request $request)
     {
         //
@@ -49,11 +44,6 @@ class UserController extends Controller
     public function show(User $user)
     {
         return new UserResource($user);
-    }
-
-    public function edit($id)
-    {
-        //
     }
 
     public function updateProfile(UpdateProfileRequest $request)

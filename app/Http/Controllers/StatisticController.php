@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Resources\ShopStatisticsResource;
+use App\Http\Resources\CustomerStatisticsResource;
 
 use App\Models\Shop;
 use App\Models\User;
@@ -18,7 +19,7 @@ class StatisticController extends Controller
 
     public function getCustomerStatistics() {
         $users = User::all();
-        return new ShopStatisticsResource($shops);
+        return new CustomerStatisticsResource($users);
     }
 
     public function getVisitorsAmountToday()

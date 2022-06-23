@@ -18,11 +18,6 @@ class CardStatusController extends Controller
         return new CardStatusesResource($collection);
     }
 
-    public function create()
-    {
-        //
-    }
-
     public function store(UpdateCardStatusRequest $request)
     {
         $status = CardStatus::create([
@@ -36,11 +31,6 @@ class CardStatusController extends Controller
     {
         $status = CardStatus::find($id);
         return new CardStatusResource($status);
-    }
-
-    public function edit($id)
-    {
-        //
     }
 
     public function update(UpdateCardStatusRequest $request, CardStatus $cardStatus)

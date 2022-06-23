@@ -66,11 +66,6 @@ class PollController extends Controller
         return $this->jsonSuccess();
     }
 
-    public function create()
-    {
-        //
-    }
-
     public function store(CreatePollRequest $request)
     {
         $poll = Poll::create([
@@ -90,11 +85,6 @@ class PollController extends Controller
     public function show(Poll $poll)
     {
         return new PollResource($poll);
-    }
-
-    public function edit($id)
-    {
-        //
     }
 
     public function update(Request $request, $id)

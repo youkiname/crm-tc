@@ -22,11 +22,6 @@ class AdsBannerController extends Controller
         return new AdsBannersResource($collection);
     }
 
-    public function create(Request $request)
-    {
-        
-    }
-
     public function store(CreateAdsBannerRequest $request)
     {
         $banner = AdsBanner::create([
@@ -39,11 +34,6 @@ class AdsBannerController extends Controller
     public function show($id)
     {
         return new AdsBannerResource(AdsBanner::find($id));
-    }
-
-    public function edit($id)
-    {
-        //
     }
 
     public function update(Request $request, $id)
