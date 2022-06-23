@@ -10,6 +10,9 @@ use App\Http\Requests\UpdatePasswordRequest;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ResetPasswordMail;
 
+use App\Models\User;
+use App\Models\ResetPasswordCode;
+
 use Carbon\Carbon;
 
 class ResetPasswordController extends Controller

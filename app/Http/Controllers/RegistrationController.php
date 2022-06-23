@@ -12,6 +12,8 @@ use App\Http\Requests\RegistrationRequest;
 use App\Http\Resources\UserResource;
 
 use App\Models\User;
+use App\Models\ShoppingCenter;
+use App\Models\Card;
 
 use Carbon\Carbon;
 
