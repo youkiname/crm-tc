@@ -16,6 +16,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\AdsBannerController;
 use App\Http\Controllers\PollController;
+use App\Http\Controllers\StatisticController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,12 +51,23 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('shopping_centers', ShoppingCenterController::class);
     Route::resource('shops', ShopController::class);
     Route::resource('messages', MessageController::class);
-    Route::get('transactions/amount', [TransactionController::class, 'getAmount']);
     Route::resource('transactions', TransactionController::class);
     Route::resource('banners', AdsBannerController::class);
 
     Route::post('polls/make_choice', [PollController::class, 'makeChoice']);
     Route::get('polls/shopping_centers', [PollController::class, 'getCenters']);
     Route::resource('polls', PollController::class);
+
+    Route::get('statistic/shops', [StatisticController::class, 'getShopStatistics']);
+    Route::get('statistic/customers', [StatisticController::class, 'getCustomerStatistics']);
+    
+    Route::get('statistic/transactions/sum', [TransactionController::class, 'getAmountSum']);
+    Route::get('statistic/transactions/sum/today', [TransactionController::class, 'getAmountSumToday']);
+    Route::get('statistic/transactions/sum/month', [TransactionController::class, 'getAmountSumMonth']);
+    Route::get('statistic/transactions/average_sum/today', [TransactionController::class, 'getAverageSumToday']);
+    Route::get('statistic/transactions/average_sum/month', [TransactionController::class, 'getAverageSumMonth']);
+    
+    Route::get('statistic/visitors/today', [StatisticController::class, 'getVisitorsAmountToday']);
+    Route::get('statistic/visitors/month', [StatisticController::class, 'getVisitorsAmountMonth']);
 });
 
