@@ -13,8 +13,6 @@ use App\Http\Resources\UserResource;
 use App\Http\Resources\UsersResource;
 
 use App\Models\User;
-use App\Models\VerificationCode;
-use App\Models\ResetPasswordCode;
 use App\Models\Card;
 use App\Models\ShoppingCenter;
 
@@ -71,13 +69,6 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    private function generateCardNumber() {
-        do {
-            $code = $this->generateCode(16);
-        } while (false);
-        return $code;
     }
 
     private function getUserByCardNumber($cardNumber) {

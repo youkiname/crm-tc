@@ -31,6 +31,13 @@ class Controller extends BaseController
         return $code;
     }
 
+    protected function generateCardNumber() {
+        do {
+            $code = $this->generateCode(16);
+        } while (false);
+        return $code;
+    }
+
     private function storeImage($requestFile, $directory) {
         $file = $request->file('image');
         $filename = date('YmdHi').$file->getClientOriginalName();
