@@ -3,10 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\AuthRequest;
-use App\Http\Requests\ResetPasswordRequest;
-use App\Http\Requests\VerifyResetPasswordRequest;
-use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Requests\UpdateProfileRequest;
 
 use Illuminate\Support\Facades\Hash;
@@ -14,7 +10,6 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\ResetPasswordMail;
 
 use App\Http\Resources\UserResource;
-use App\Http\Resources\AuthenticatedUserResource;
 use App\Http\Resources\UsersResource;
 
 use App\Models\User;
