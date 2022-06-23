@@ -21,4 +21,13 @@ class Controller extends BaseController
             'success' => true,
         ]);
     }
+
+    protected function generateCode($n) {
+        $chars = '01234567890';
+        $code = '';
+        for ($x = 0; $x < $n; $x++) {
+            $code .= $chars[ rand(0, strlen($chars)-1) ];
+        }
+        return $code;
+    }
 }

@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VerificationController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\CardStatusController;
 use App\Http\Controllers\ShoppingCenterController;
@@ -28,14 +31,14 @@ Route::get('unauthorized', function () {
     return response()->json(['errors' => 'unauthorized'], 401);
 })->name('api.unauthorized');
 
-Route::get('auth', [UserController::class, 'auth']);
-Route::post('register', [UserController::class, 'register']);
+Route::get('auth', [AuthController::class, 'auth']);
+Route::post('register', [RegistrationController::class, 'register']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('users/verify_email', [VerificationController::class, 'verify']);
-    Route::post('users/reset_password', [UserController::class, 'resetPassword']);
-    Route::get('users/verify_password_reset', [UserController::class, 'verifyPasswordReset']);
-    Route::post('users/update_password', [UserController::class, 'updatePassword']);
+    Route::post('users/reset_password', [ResetPasswordController::class, 'resetPassword']);
+    Route::get('users/verify_password_reset', [ResetPasswordController::class, 'verifyPasswordReset']);
+    Route::post('users/update_password', [ResetPasswordController::class, 'updatePassword']);
 
     Route::post('users/update_profile', [UserController::class, 'updateProfile']);
 
