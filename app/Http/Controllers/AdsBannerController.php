@@ -25,8 +25,15 @@ class AdsBannerController extends Controller
     public function store(CreateAdsBannerRequest $request)
     {
         $banner = AdsBanner::create([
-            'link' => $request->link,
-            'image_link' => $this->storeImage($request->file('image'), 'static/banners')
+            'name' => $request->name,
+            'shop_id' => $request->shop_id,
+            'image_link' => $this->storeImage($request->file('image'), 'static/banners'),
+            'start_date' => $request->start_date ?? date("Y-m-d"),
+            'end_date' => $request->end_date,
+            'min_age' => $request->min_age ?? 0,
+            'max_age' => $request->min_age ?? 1000,
+            'min_balance' => $request->min_balance ?? 0,
+            'max_balance' => $request->max_balance ?? 2147483647,
         ]);
         return new AdsBannerResource($banner);
     }

@@ -10,7 +10,16 @@ class AdsBanner extends Model
     use HasFactory;
 
     protected $fillable = [
+        'name',
+        'shop_id',
         'image_link',
-        'link'
+        'start_date',
+        'end_date',
+        'is_active',
+        'gender',
+        'min_age',
+        'max_age',
+        'min_balance',
+        'max_balance',
     ];
 }

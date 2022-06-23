@@ -12,8 +12,12 @@ class AdsBannerResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'name' => $this->name,
+            'link' => "https://top-sistem.ru",
             'image_link' => $this->image_link,
-            'link' => $this->link,
+            'start_date' => $this->start_date,
+            'end_date' => $this->end_date,
+            'is_active' => $this->is_active,
         ];
     }
 }
