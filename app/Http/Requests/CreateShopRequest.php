@@ -13,9 +13,14 @@ class CreateShopRequest extends ApiFormRequest
     {
         return [
             'shopping_center_id' => 'required|integer|exists:shopping_centers,id',
+            'avatar' => 'image',
             'name' => 'required',
-            'cashback' => 'required|integer',
+            'cashback' => 'integer',
             'category_id' => 'required|integer|exists:shop_categories,id',
+            'renter_name' => 'required',
+            'renter_phone' => 'required|regex:/\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/',
+            'renter_email' => 'required|email',
+            'renter_password' => 'required'
         ];
     }
 }

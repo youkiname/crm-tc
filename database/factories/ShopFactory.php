@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 use App\Models\ShopCategory;
 use App\Models\ShoppingCenter;
+use App\Models\Renter;
 
 
 /**
@@ -13,18 +14,14 @@ use App\Models\ShoppingCenter;
  */
 class ShopFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition()
     {
         return [
             "name" => $this->faker->company(),
+            "renter_id" => Renter::inRandomOrder()->first()->id,
             "cashback" => $this->faker->numberBetween($min = 5, $max = 20),
-            'category_id' => ShopCategory::inRandomOrder()->first()->id,
             'shopping_center_id' => ShoppingCenter::inRandomOrder()->first()->id,
+            'category_id' => ShopCategory::inRandomOrder()->first()->id,
         ];
     }
 }

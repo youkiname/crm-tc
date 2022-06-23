@@ -9,6 +9,7 @@ use App\Http\Resources\ShopResource;
 use App\Http\Resources\ShopsResource;
 
 use App\Models\Shop;
+use App\Models\Renter;
 
 class ShopController extends Controller
 {
@@ -18,16 +19,20 @@ class ShopController extends Controller
         return new ShopsResource($collection);
     }
 
-    public function create()
-    {
-        //
-    }
-
     public function store(CreateShopRequest $request)
     {
+        $renter = Renter::create([
+            'name' => $request->renter_name,
+            'phone' => $request->renter_phone,
+            'email' => $request->renter_email,
+            'password' => $request->renter_password,
+        ]);
+        
         $shop = Shop::create([
             'name' => $request->name,
-            'cashback' => $request->cashback,
+            'renter_id' => $renter->id,
+            'avatar_link' => $this->getAvatarLink($request),
+            'cashback' => $request->cashback ?? 0,
             'shopping_center_id' => $request->shopping_center_id,
             'category_id' => $request->category_id,
         ]);
@@ -40,11 +45,6 @@ class ShopController extends Controller
         return new ShopResource($shop);
     }
 
-    public function edit($id)
-    {
-        //
-    }
-
     public function update(Request $request, $id)
     {
         //
@@ -54,5 +54,12 @@ class ShopController extends Controller
     {
         Shop::where('id', $id)->delete();
         return $this->jsonSuccess();
+    }
+
+    private function getAvatarLink($request) {
+        if ($request->file('avatar')) {
+            return $this->storeImage($request->file('avatar'), 'static/shop_avatars');
+        }
+        return null;
     }
 }

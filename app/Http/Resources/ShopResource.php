@@ -15,7 +15,8 @@ class ShopResource extends JsonResource
             'name' => $this->name,
             'cashback' => $this->cashback,
             'category' => new ShopCategoryResource($this->category),
-            'avatar_link' => 'https://picsum.photos/500/500',
+            'avatar_link' => $this->avatar_link ?? 'https://picsum.photos/500/500',
+            'renter' => new RenterResource($this->renter)
         ];
     }
 }
