@@ -37,4 +37,10 @@ class ShopTest extends TestCase
         ]);
         $response->assertStatus(201);
     }
+
+    public function testDelete()
+    {
+        $response = $this->delete('/api/shops/' . Shop::orderBy('id', 'desc')->first()->id);
+        $response->assertStatus(200);
+    }
 }

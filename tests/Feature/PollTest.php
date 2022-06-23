@@ -49,4 +49,21 @@ class PollTest extends TestCase
         ]);
         $response->assertStatus(409);
     }
+
+    public function testCreate()
+    {
+        $response = $this->post('/api/polls', [
+            'shopping_center_id' => ShoppingCenter::inRandomOrder()->first()->id,
+            'title' => "TITLE",
+            'description' => "DESCRIPTION",
+            'choices' => ['choice1', 'choice2'],
+        ]);
+        $response->assertStatus(201);
+    }
+
+    public function testDelete()
+    {
+        $response = $this->delete('/api/polls/' . ShoppingCenter::orderBy('id', 'desc')->first()->id);
+        $response->assertStatus(200);
+    }
 }
