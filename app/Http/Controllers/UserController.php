@@ -60,7 +60,7 @@ class UserController extends Controller
             $user->gender = $request->gender;
         }
         if ($request->mobile) {
-            $user->mobile = $request->mobile;
+            $user->phone = $request->mobile;
         }
         $user->save();
         return new UserResource($user);
