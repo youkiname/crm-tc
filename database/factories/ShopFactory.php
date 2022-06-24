@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 use App\Models\ShopCategory;
 use App\Models\ShoppingCenter;
-use App\Models\Renter;
+use App\Models\User;
 
 
 /**
@@ -18,7 +18,7 @@ class ShopFactory extends Factory
     {
         return [
             "name" => $this->faker->company(),
-            "renter_id" => Renter::inRandomOrder()->first()->id,
+            "renter_id" => User::inRandomOrder()->first()->id,
             "cashback" => $this->faker->numberBetween($min = 5, $max = 20),
             'shopping_center_id' => ShoppingCenter::inRandomOrder()->first()->id,
             'category_id' => ShopCategory::inRandomOrder()->first()->id,

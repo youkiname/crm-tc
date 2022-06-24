@@ -20,7 +20,7 @@ class Shop extends Model
 
     public function renter()
     {
-        return $this->belongsTo(Renter::class, 'renter_id', 'id');
+        return $this->belongsTo(User::class, 'renter_id', 'id');
     }
 
     public function category()

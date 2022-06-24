@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('shops', function (Blueprint $table) {
             $table->id();
             $table->string("name");
-            $table->foreignId("renter_id")->references('id')->on('renters');
+            $table->foreignId("renter_id")->nullable()->references('id')->on('users')->onDelete('set null');
             $table->string('avatar_link')->nullable();
             $table->integer("cashback");
             $table->foreignId('shopping_center_id')->nullable()->references('id')->on('shopping_centers')->onDelete('set null');

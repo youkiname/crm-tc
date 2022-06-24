@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
             'last_name' => "Voronov",
             'email' => "vadimv0810@gmail.com",
             'gender' => "male",
-            'mobile' => "+79998887766",
+            'phone' => "+79998887766",
             'birth_date' => "1999-08-22",
             'password' => '123123123',
             'role_id' => 1,

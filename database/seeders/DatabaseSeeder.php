@@ -20,6 +20,12 @@ class DatabaseSeeder extends Seeder
         Role::create([
             'name' => 'seller'
         ]);
+        Role::create([
+            'name' => 'renter'
+        ]);
+        Role::create([
+            'name' => 'admin'
+        ]);
 
         CardStatus::create([
             'name' => 'Bronze',
