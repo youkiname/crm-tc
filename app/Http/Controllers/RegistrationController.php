@@ -31,7 +31,7 @@ class RegistrationController extends Controller
             'last_name' => $request->last_name,
             'email' => $request->email,
             'gender' => $request->gender,
-            'mobile' => $request->mobile,
+            'phone' => $request->mobile,
             'birth_date' => $request->birth_date,
             'password' => $request->password,
             'role_id' => $role_id,
