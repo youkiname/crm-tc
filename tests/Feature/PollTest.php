@@ -32,10 +32,8 @@ class PollTest extends TestCase
     public function testMakeChoice()
     {
         $randomChoice = PollChoice::inRandomOrder()->first();
-        $userId = User::inRandomOrder()->first()->id;
         $response = $this->post('/api/polls/make_choice',
         [
-            'user_id' => $userId,
             'poll_id' => $randomChoice->poll->id,
             'choice_id' => $randomChoice->id,
         ]);
@@ -43,16 +41,15 @@ class PollTest extends TestCase
 
         $response = $this->post('/api/polls/make_choice',
         [
-            'user_id' => $userId,
             'poll_id' => $randomChoice->poll->id,
             'choice_id' => $randomChoice->id,
         ]);
-        $response->assertStatus(409);
+        $response->assertStatus(409); 
     }
 
     public function testCreate()
     {
-        $response = $this->post('/api/polls', [
+        $response = $this->postJson('/api/polls', [
             'shopping_center_id' => ShoppingCenter::inRandomOrder()->first()->id,
             'title' => "TITLE",
             'description' => "DESCRIPTION",
@@ -63,7 +60,7 @@ class PollTest extends TestCase
 
     public function testDelete()
     {
-        $response = $this->delete('/api/polls/' . ShoppingCenter::orderBy('id', 'desc')->first()->id);
+        $response = $this->delete('/api/polls/' . Poll::orderBy('id', 'desc')->first()->id);
         $response->assertStatus(200);
     }
 }

@@ -26,7 +26,7 @@ class UserTest extends TestCase
         $response = $this->get('/api/users/' . $user_id);
         $response->assertStatus(200);
 
-        $null_user_id = User::count() + 1;
+        $null_user_id = 0;
         $response = $this->get('/api/users/' . $null_user_id);
         $response->assertStatus(404);
     }

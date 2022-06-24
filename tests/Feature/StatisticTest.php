@@ -24,26 +24,39 @@ class StatisticTest extends TestCase
     public function testTransactionSum()
     {
         $response = $this->get('/api/statistic/transactions/sum');
-        $response->assertStatus(200);
+        $response->assertStatus(200)
+        ->assertJsonPath('amount', fn ($amount) => is_numeric($amount));
+        $response = $this->get('/api/statistic/transactions/sum', [
+            'start_date' => '2020-01-01',
+            'end_date' => '2022-01-01',
+        ]);
+        $response->assertStatus(200)
+        ->assertJsonPath('amount', fn ($amount) => is_numeric($amount));
         $response = $this->get('/api/statistic/transactions/sum/today');
-        $response->assertStatus(200);
+        $response->assertStatus(200)
+        ->assertJsonPath('amount', fn ($amount) => is_numeric($amount));
         $response = $this->get('/api/statistic/transactions/sum/month');
-        $response->assertStatus(200);
+        $response->assertStatus(200)
+        ->assertJsonPath('amount', fn ($amount) => is_numeric($amount));
     }
 
     public function testTransactionAvg()
     {
         $response = $this->get('/api/statistic/transactions/average_sum/today');
-        $response->assertStatus(200);
+        $response->assertStatus(200)
+        ->assertJsonPath('amount', fn ($amount) => is_numeric($amount));
         $response = $this->get('/api/statistic/transactions/average_sum/month');
-        $response->assertStatus(200);
+        $response->assertStatus(200)
+        ->assertJsonPath('amount', fn ($amount) => is_numeric($amount));
     }
 
     public function testVisitors()
     {
         $response = $this->get('/api/statistic/visitors/today');
-        $response->assertStatus(200);
+        $response->assertStatus(200)
+        ->assertJsonPath('amount', fn ($amount) => is_numeric($amount));
         $response = $this->get('/api/statistic/visitors/month');
-        $response->assertStatus(200);
+        $response->assertStatus(200)
+        ->assertJsonPath('amount', fn ($amount) => is_numeric($amount));
     }
 }
