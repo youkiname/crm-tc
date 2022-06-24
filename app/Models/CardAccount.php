@@ -5,14 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Card extends Model
+class CardAccount extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'user_id',
         'shopping_center_id',
-        "number",
         "bonuses_amount",
     ];
 
@@ -37,5 +36,12 @@ class Card extends Model
         $status = CardStatus::where('threshold', '>', $this->bonuses_amount)
         ->orderBy('threshold', 'asc')->first();
         return $status;
+    }
+
+    public function toNextStatus() {
+        if (!$this->nextStatus()) {
+            return 0;
+        }
+        return $this->nextStatus()->threshold - $this->bonuses_amount;
     }
 }

@@ -11,19 +11,12 @@ class CardResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'shopping_center_id' => $this->shopping_center_id,
+            'shopping_center_id' => $this->shoppingCenterId,
             'number' => $this->number,
-            'status' => $this->status()->name,
-            'next_status' => $this->nextStatus()->name ?? NULL,
-            'to_next_status' => $this->calculateBonusesToNextStatus(),
-            'bonuses_amount' => $this->bonuses_amount,
+            'status' => $this->status,
+            'next_status' => $this->nextStatus ?? NULL,
+            'to_next_status' => $this->toNextStatus,
+            'bonuses_amount' => $this->bonusesAmount,
         ];
-    }
-
-    private function calculateBonusesToNextStatus() {
-        if (!$this->nextStatus()) {
-            return 0;
-        }
-        return $this->nextStatus()->threshold - $this->bonuses_amount;
     }
 }

@@ -7,7 +7,6 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 use App\Models\User;
-use App\Models\Card;
 
 class UserTest extends TestCase
 {
@@ -33,7 +32,7 @@ class UserTest extends TestCase
 
     public function testByCardNumber()
     {
-        $response = $this->get('/api/users/', ['card_number' => Card::inRandomOrder()->first()->number]);
+        $response = $this->get('/api/users/', ['card_number' => User::inRandomOrder()->first()->card_number]);
         $response->assertStatus(200);
     }
 }

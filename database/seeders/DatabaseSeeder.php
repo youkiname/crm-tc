@@ -77,8 +77,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             ShoppingCenterSeeder::class,
-            CardSeeder::class,
+            CardAccountSeeder::class,
             ShopSeeder::class,
+            SellerShopBundleSeeder::class,
             TransactionSeeder::class,
             PollSeeder::class,
             AdsBannerSeeder::class,

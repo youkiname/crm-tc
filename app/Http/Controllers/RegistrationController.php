@@ -12,8 +12,9 @@ use App\Http\Requests\RegistrationRequest;
 use App\Http\Resources\UserResource;
 
 use App\Models\User;
+use App\Models\Role;
+use App\Models\CardAccount;
 use App\Models\ShoppingCenter;
-use App\Models\Card;
 use App\Models\VerificationCode;
 
 use Carbon\Carbon;
@@ -30,6 +31,7 @@ class RegistrationController extends Controller
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
+            'card_number' => $this->generateCardNumber(),
             'gender' => $request->gender,
             'phone' => $request->mobile,
             'birth_date' => $request->birth_date,
@@ -41,18 +43,22 @@ class RegistrationController extends Controller
             $user->cashback = random_int(5, 30);
         }
 
-
-        for($i=1; $i<=ShoppingCenter::count(); $i++) {
-            Card::create([
-                'user_id' => $user->id,
-                'shopping_center_id' => $i,
-                'number' => $this->generateCardNumber(),
-                'bonuses_amount' => 0,
-                'status_id' => 1
-            ]);
+        if (!$request->is_seller) {
+            $this->generateAccounts($user->id);
         }
+
         $this->sendVerificationMail($user);
         return new UserResource($user);
+    }
+
+    private function generateAccounts($userId) {
+        for($i=1; $i<=ShoppingCenter::count(); $i++) {
+            CardAccount::create([
+                'user_id' => $userId,
+                'shopping_center_id' => $i,
+                'bonuses_amount' => 0,
+            ]);
+        }
     }
 
     private function sendVerificationMail($user) {

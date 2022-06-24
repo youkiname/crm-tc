@@ -28,6 +28,7 @@ class ShopController extends Controller
             'email' => $request->renter_email,
             'password' => $request->renter_password,
             'role_id' => Role::where('name', 'renter')->first()->id,
+            'card_number' => $this->generateCardNumber(),
         ]);
         
         $shop = Shop::create([

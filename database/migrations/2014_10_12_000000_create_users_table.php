@@ -18,6 +18,7 @@ return new class extends Migration
             $table->Date('birth_date')->nullable();
             $table->integer("cashback")->nullable();
             $table->string('email', 100)->unique();
+            $table->string("card_number", 100)->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
