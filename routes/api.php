@@ -35,7 +35,7 @@ Route::get('unauthorized', function () {
 Route::get('auth', [AuthController::class, 'auth']);
 Route::post('register', [RegistrationController::class, 'register']);
 
-Route::middleware('auth:sanctum')->group(function () {
+//Route::middleware('auth:sanctum')->group(function () {
     Route::post('users/verify_email', [VerificationController::class, 'verify']);
     Route::post('users/reset_password', [ResetPasswordController::class, 'resetPassword']);
     Route::get('users/verify_password_reset', [ResetPasswordController::class, 'verifyPasswordReset']);
@@ -60,14 +60,16 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('statistic/shops', [StatisticController::class, 'getShopStatistics']);
     Route::get('statistic/customers', [StatisticController::class, 'getCustomerStatistics']);
-    
+
     Route::get('statistic/transactions/sum', [TransactionController::class, 'getAmountSum']);
     Route::get('statistic/transactions/sum/today', [TransactionController::class, 'getAmountSumToday']);
     Route::get('statistic/transactions/sum/month', [TransactionController::class, 'getAmountSumMonth']);
     Route::get('statistic/transactions/average_sum/today', [TransactionController::class, 'getAverageSumToday']);
     Route::get('statistic/transactions/average_sum/month', [TransactionController::class, 'getAverageSumMonth']);
-    
+
     Route::get('statistic/visitors/today', [StatisticController::class, 'getVisitorsAmountToday']);
     Route::get('statistic/visitors/month', [StatisticController::class, 'getVisitorsAmountMonth']);
-});
+    Route::post('statistic/visitors', [StatisticController::class, 'storeVisitor']);
+    Route::get('statistic/visitors_graph', [StatisticController::class, 'getVisitorsGraph']);
+//});
 
