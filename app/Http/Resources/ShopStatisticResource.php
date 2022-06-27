@@ -17,7 +17,7 @@ public function toArray($request)
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'renter_name' => $this->renter->name,
+            'renter_name' => $this->renter->fullName(),
             'transactions_per_week' => $this->getTransactionsAmount(Carbon::now()->subDays(7)),
             'transactions_per_month' => $this->getTransactionsAmount(Carbon::now()->subDays(30)),
             'income_per_week' => $this->getIncomeAmount(Carbon::now()->subDays(7)),

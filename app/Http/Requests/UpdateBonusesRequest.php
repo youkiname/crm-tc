@@ -13,11 +13,9 @@ class UpdateBonusesRequest extends ApiFormRequest
     public function rules()
     {
         return [
-            'card_number' => 'required|exists:cards,number',
+            'card_number' => 'required|exists:users,card_number',
             'offset' => 'required|integer',
             'amount' => 'required|integer',
-            'shopping_center_id' => 'required|integer|exists:shopping_centers,id',
-            'shop_id' => 'required|integer|exists:shops,id',
             'seller_id' => 'required|integer|exists:users,id'
         ];
     }

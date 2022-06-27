@@ -9,7 +9,8 @@ use App\Http\Resources\ShopResource;
 use App\Http\Resources\ShopsResource;
 
 use App\Models\Shop;
-use App\Models\Renter;
+use App\Models\User;
+use App\Models\Role;
 
 class ShopController extends Controller
 {
@@ -21,17 +22,19 @@ class ShopController extends Controller
 
     public function store(CreateShopRequest $request)
     {
-        $renter = Renter::create([
-            'name' => $request->renter_name,
+        $renter = User::create([
+            'first_name' => $request->renter_name,
             'phone' => $request->renter_phone,
             'email' => $request->renter_email,
             'password' => $request->renter_password,
+            'role_id' => Role::where('name', 'renter')->first()->id,
+            'card_number' => $this->generateCardNumber(),
         ]);
         
         $shop = Shop::create([
             'name' => $request->name,
             'renter_id' => $renter->id,
-            'avatar_link' => $this->getAvatarLink($request),
+            'avatar_link' => $this->saveAvatar($request),
             'cashback' => $request->cashback ?? 0,
             'shopping_center_id' => $request->shopping_center_id,
             'category_id' => $request->category_id,
@@ -56,7 +59,7 @@ class ShopController extends Controller
         return $this->jsonSuccess();
     }
 
-    private function getAvatarLink($request) {
+    private function saveAvatar($request) {
         if ($request->file('avatar')) {
             return $this->storeImage($request->file('avatar'), 'static/shop_avatars');
         }

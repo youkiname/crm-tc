@@ -13,7 +13,6 @@ use App\Http\Resources\UserResource;
 use App\Http\Resources\UsersResource;
 
 use App\Models\User;
-use App\Models\Card;
 use App\Models\ShoppingCenter;
 
 use Carbon\Carbon;
@@ -60,7 +59,7 @@ class UserController extends Controller
             $user->gender = $request->gender;
         }
         if ($request->mobile) {
-            $user->mobile = $request->mobile;
+            $user->phone = $request->mobile;
         }
         $user->save();
         return new UserResource($user);
@@ -72,11 +71,11 @@ class UserController extends Controller
     }
 
     private function getUserByCardNumber($cardNumber) {
-        $card = Card::where('number', $cardNumber)->first();
-        if (!$card) {
+        $user = User::where('card_number', $cardNumber)->first();
+        if (!$user) {
             $this->jsonAbort('User not found', 404);
         }
-        return $card->user;
+        return $user;
     }
 
     private function getUserById($id) {

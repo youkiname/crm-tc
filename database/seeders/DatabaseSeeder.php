@@ -20,6 +20,12 @@ class DatabaseSeeder extends Seeder
         Role::create([
             'name' => 'seller'
         ]);
+        Role::create([
+            'name' => 'renter'
+        ]);
+        Role::create([
+            'name' => 'admin'
+        ]);
 
         CardStatus::create([
             'name' => 'Bronze',
@@ -71,8 +77,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             ShoppingCenterSeeder::class,
-            CardSeeder::class,
+            CardAccountSeeder::class,
             ShopSeeder::class,
+            SellerShopBundleSeeder::class,
             TransactionSeeder::class,
             PollSeeder::class,
             AdsBannerSeeder::class,

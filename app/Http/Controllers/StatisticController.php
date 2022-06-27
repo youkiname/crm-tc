@@ -9,6 +9,7 @@ use App\Http\Resources\CustomerStatisticsResource;
 
 use App\Models\Shop;
 use App\Models\User;
+use App\Models\Role;
 
 class StatisticController extends Controller
 {
@@ -18,7 +19,8 @@ class StatisticController extends Controller
     }
 
     public function getCustomerStatistics() {
-        $users = User::all();
+        $customer_role_id = Role::where('name', 'customer')->first()->id;
+        $users = User::where('role_id', $customer_role_id)->get();
         return new CustomerStatisticsResource($users);
     }
 

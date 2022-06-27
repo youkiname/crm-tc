@@ -6,12 +6,15 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+use App\Models\User;
 use App\Models\Shop;
 use App\Models\ShoppingCenter;
 use App\Models\ShopCategory;
 
 class ShopTest extends TestCase
 {
+    use WithFaker;
+
     public function testIndex()
     {
         $response = $this->get('/api/shops');
@@ -30,9 +33,9 @@ class ShopTest extends TestCase
             'shopping_center_id' => ShoppingCenter::inRandomOrder()->first()->id,
             'name' => "Vadim SHOP",
             'category_id' => ShopCategory::inRandomOrder()->first()->id,
-            'renter_name' => 'Вадим',
+            'renter_name' => 'Вадим Воронов',
             'renter_phone' => '+79998887766',
-            'renter_email' => 'vadimv0810@gmail.com',
+            'renter_email' => $this->faker->safeEmail(),
             'renter_password' => '123123123',
         ]);
         $response->assertStatus(201);
@@ -40,7 +43,10 @@ class ShopTest extends TestCase
 
     public function testDelete()
     {
-        $response = $this->delete('/api/shops/' . Shop::orderBy('id', 'desc')->first()->id);
+        $testShop = Shop::orderBy('id', 'desc')->first();
+        $renterId = $testShop->renter->id;
+        $response = $this->delete('/api/shops/' . $testShop->id);
         $response->assertStatus(200);
+        User::where('id', $renterId)->delete();
     }
 }

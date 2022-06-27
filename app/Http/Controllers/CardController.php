@@ -6,28 +6,35 @@ use Illuminate\Http\Request;
 use App\Http\Requests\UpdateBonusesRequest;
 use App\Http\Resources\CardResource;
 
-use App\Models\Card;
 use App\Models\Transaction;
-
+use App\Models\User;
 
 class CardController extends Controller
 {
     public function updateBonuses(UpdateBonusesRequest $request)
     {
-        $card = Card::where('number', $request->card_number)->first();
-        $card->bonuses_amount += $request->offset;
-        $card->save();
-        $this->createTransaction($card, $request);
-        return new CardResource($card);
-    }
-    
-    private function createTransaction($card, $request) {
+        $customer = User::where('card_number', $request->card_number)->first();
+        $seller = User::where('id', $request->seller_id)->first();
+
+        $customerAccount = $customer->account();
+        $shop = $seller->jobShop();
+        $shopAccount = $shop->renter->account();
+
+        $customerAccount->bonuses_amount += $request->offset;
+        $customerAccount->save();
+
+        $shopAccount->bonuses_amount -= $request->offset;
+        $shopAccount->save();
+
         Transaction::create([
-            'seller_id' => $request->seller_id,
-            'customer_id' => $card->user->id,
-            'shop_id' => $request->shop_id,
+            'seller_id' => $seller->id,
+            'customer_id' => $customer->id,
+            'shop_id' => $seller->jobShop()->id,
+            'shopping_center_id' => $shop->shoppingCenter->id,
             'bonuses_offset' => $request->offset,
             'amount' => $request->amount,
         ]);
+
+        return new CardResource($customer->card());
     }
 }

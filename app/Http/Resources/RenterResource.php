@@ -11,7 +11,7 @@ class RenterResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'name' => $this->name,
+            'name' => $this->fullName(),
             'phone' => $this->phone,
             'email' => $this->email
         ];
