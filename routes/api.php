@@ -32,10 +32,19 @@ Route::get('unauthorized', function () {
     return response()->json(['errors' => 'unauthorized'], 401);
 })->name('api.unauthorized');
 
-Route::get('auth', [AuthController::class, 'auth']);
-Route::post('register', [RegistrationController::class, 'register']);
+Route::get('auth/customer', [AuthController::class, 'authCustomer']);
+Route::get('auth/seller', [AuthController::class, 'authSeller']);
+Route::get('auth/renter', [AuthController::class, 'authRenter']);
+Route::get('auth/admin', [AuthController::class, 'authAdmin']);
+Route::get('auth', [AuthController::class, 'authCustomer']);
 
-// Route::middleware('auth:sanctum')->group(function () {
+Route::post('register/customer', [RegistrationController::class, 'registerCustomer']);
+Route::post('register/seller', [RegistrationController::class, 'registerSeller']);
+Route::post('register/renter', [RegistrationController::class, 'registerRenter']);
+Route::post('register/admin', [RegistrationController::class, 'registerAdmin']);
+Route::post('register', [RegistrationController::class, 'registerCustomer']);
+
+Route::middleware('auth:sanctum')->group(function () {
     Route::post('users/verify_email', [VerificationController::class, 'verify']);
     Route::post('users/reset_password', [ResetPasswordController::class, 'resetPassword']);
     Route::get('users/verify_password_reset', [ResetPasswordController::class, 'verifyPasswordReset']);
@@ -71,5 +80,4 @@ Route::post('register', [RegistrationController::class, 'register']);
     Route::get('statistic/visitors/month', [StatisticController::class, 'getVisitorsAmountMonth']);
     Route::post('statistic/visitors', [StatisticController::class, 'storeVisitor']);
     Route::get('statistic/visitors_graph', [StatisticController::class, 'getVisitorsGraph']);
-// });
-
+});

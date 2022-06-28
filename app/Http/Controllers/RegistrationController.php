@@ -21,12 +21,26 @@ use Carbon\Carbon;
 
 class RegistrationController extends Controller
 {
-    public function register(RegistrationRequest $request)
+    public function registerCustomer(RegistrationRequest $request) {
+        return $this->register($request, 'customer');
+    }
+
+    public function registerSeller(RegistrationRequest $request) {
+        return $this->register($request, 'seller');
+    }
+
+    public function registerRenter(RegistrationRequest $request) {
+        return $this->register($request, 'renter');
+    }
+
+    public function registerAdmin(RegistrationRequest $request) {
+        return $this->register($request, 'admin');
+    }
+
+    private function register(RegistrationRequest $request, $roleName)
     {
-        $role_id = 1;
-        if ($request->is_seller) {
-            $role_id = 2;
-        }
+        $roleId = Role::where('name', $roleName)->first()->id;
+
         $user = User::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
@@ -36,14 +50,14 @@ class RegistrationController extends Controller
             'phone' => $request->mobile,
             'birth_date' => $request->birth_date,
             'password' => $request->password,
-            'role_id' => $role_id,
+            'role_id' => $roleId,
         ]);
 
-        if ($request->is_seller) {
+        if ($roleName == 'seller') { // seller role_id
             $user->cashback = random_int(5, 30);
         }
 
-        if (!$request->is_seller) {
+        if ($roleName == 'customer' || $roleName == 'renter') {
             $this->generateAccounts($user->id);
         }
 
