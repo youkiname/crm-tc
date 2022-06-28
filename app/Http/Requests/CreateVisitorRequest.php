@@ -15,7 +15,8 @@ class CreateVisitorRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'required|integer|exists:users,id'
+            'user_id' => 'required|integer|exists:users,id',
+            'shopping_center_id' => 'required|integer|exists:shopping_centers,id',
         ];
     }
 }

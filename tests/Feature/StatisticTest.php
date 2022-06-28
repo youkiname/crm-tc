@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use App\Models\ShoppingCenter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -51,7 +52,7 @@ class StatisticTest extends TestCase
         ->assertJsonPath('amount', fn ($amount) => is_numeric($amount));
     }
 
-    public function testVisitors()
+    public function testVisitorsAmount()
     {
         $response = $this->get('/api/statistic/visitors/today');
         $response->assertStatus(200)
@@ -59,5 +60,14 @@ class StatisticTest extends TestCase
         $response = $this->get('/api/statistic/visitors/month');
         $response->assertStatus(200)
         ->assertJsonPath('amount', fn ($amount) => is_numeric($amount));
+    }
+
+    public function testVisitorCreating() 
+    {
+        $response = $this->postJson('/api/statistic/visitors', [
+            'user_id' => User::inRandomOrder()->first()->id,
+            'shopping_center_id' => ShoppingCenter::inRandomOrder()->first()->id,
+        ]);
+        $response->assertStatus(200);
     }
 }
