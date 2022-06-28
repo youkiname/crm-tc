@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 use App\Http\Requests\CreateVisitorRequest;
 use App\Models\Visitor;
@@ -30,10 +31,16 @@ class StatisticController extends Controller
     }
 
     public function getVisitorsGraph(Request $request){
-        $visitorsAmount = Visitor::select(DB::raw('created_at as date, count(*) as amount'))
+        $collection = Visitor::select(DB::raw('created_at as date, count(*) as amount'))
+        ->when($request->start_date, function ($query, $startDate) {
+            $query->where('created_at', '>=', $startDate);
+        })
+        ->when($request->end_date, function ($query, $endDate) {
+            $query->where('created_at', '<=', $endDate);
+        })
         ->groupBy('date')
         ->get();
-        return new VisitorAmountListResource($visitorsAmount);
+        return new VisitorAmountListResource($collection);
     }
 
     public function getShopStatistics() {
@@ -49,15 +56,18 @@ class StatisticController extends Controller
 
     public function getVisitorsAmountToday()
     {
+        $amount = Visitor::whereDate('created_at', Carbon::today())->count();
         return response()->json([
-            'amount' => random_int(10, 100),
+            'amount' => $amount,
         ]);
     }
 
     public function getVisitorsAmountMonth()
     {
+        $amount = Visitor::where('created_at', '>=', Carbon::now()->subDays(30))
+        ->count();
         return response()->json([
-            'amount' => random_int(10, 100),
+            'amount' => $amount,
         ]);
     }
 }

@@ -83,6 +83,7 @@ class DatabaseSeeder extends Seeder
             TransactionSeeder::class,
             PollSeeder::class,
             AdsBannerSeeder::class,
+            VisitorSeeder::class,
         ]);
     }
 }
