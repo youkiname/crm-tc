@@ -28,6 +28,7 @@ class UserSeeder extends Seeder
             'birth_date' => "1999-08-22",
             'password' => '123123123',
             'role_id' => $customerRoleId,
+            'email_verified_at' => now()
         ]);
         User::create([
             'first_name' => "Seller",
@@ -39,6 +40,7 @@ class UserSeeder extends Seeder
             'birth_date' => "1999-08-22",
             'password' => '123123123',
             'role_id' => $sellerRoleId,
+            'email_verified_at' => now()
         ]);
         User::create([
             'first_name' => "Renter",
@@ -50,6 +52,7 @@ class UserSeeder extends Seeder
             'birth_date' => "1999-08-22",
             'password' => '123123123',
             'role_id' => $renterRoleId,
+            'email_verified_at' => now()
         ]);
         User::create([
             'first_name' => "Admin",
@@ -61,6 +64,55 @@ class UserSeeder extends Seeder
             'birth_date' => "1999-08-22",
             'password' => '123123123',
             'role_id' => $adminRoleId,
+            'email_verified_at' => now()
+        ]);
+        User::create([
+            'first_name' => "Lexajтdw",
+            'last_name' => "Lexa",
+            'email' => "te@te.te",
+            'card_number' => '1111111111111115',
+            'gender' => "male",
+            'phone' => "+798856424367",
+            'birth_date' => "1999-08-22",
+            'password' => '123123123',
+            'role_id' => $customerRoleId,
+            'email_verified_at' => now()
+        ]);
+        User::create([
+            'first_name' => "Max",
+            'last_name' => "Maximov",
+            'email' => "aq@aq.aq",
+            'card_number' => '1111111111111116',
+            'gender' => "male",
+            'phone' => "+798856424367",
+            'birth_date' => "1999-08-22",
+            'password' => '123123123',
+            'role_id' => $customerRoleId,
+            'email_verified_at' => now()
+        ]);
+        User::create([
+            'first_name' => "Александр",
+            'last_name' => "Курылев",
+            'email' => "appdetra@gmail.com",
+            'card_number' => '1111111111111117',
+            'gender' => "male",
+            'phone' => "89176276758",
+            'birth_date' => "2003-09-29",
+            'password' => '123123123',
+            'role_id' => $customerRoleId,
+            'email_verified_at' => now()
+        ]);
+        User::create([
+            'first_name' => "илья",
+            'last_name' => "илья",
+            'email' => "bavaw18343@lockaya.com",
+            'card_number' => '1111111111111118',
+            'gender' => "male",
+            'phone' => "+79888888888",
+            'birth_date' => "2022-05-17",
+            'password' => '123123123',
+            'role_id' => $customerRoleId,
+            'email_verified_at' => now()
         ]);
     }
 }
