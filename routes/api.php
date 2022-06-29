@@ -75,6 +75,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('statistic/transactions/sum/month', [TransactionController::class, 'getAmountSumMonth']);
     Route::get('statistic/transactions/average_sum/today', [TransactionController::class, 'getAverageSumToday']);
     Route::get('statistic/transactions/average_sum/month', [TransactionController::class, 'getAverageSumMonth']);
+    Route::get('statistic/transactions/average_sum/graph', [TransactionController::class, 'getAverageSumGraph']);
 
     Route::get('statistic/visitors/today', [StatisticController::class, 'getVisitorsAmountToday']);
     Route::get('statistic/visitors/month', [StatisticController::class, 'getVisitorsAmountMonth']);

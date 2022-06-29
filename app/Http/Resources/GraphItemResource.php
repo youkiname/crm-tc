@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class VisitorAmountResource extends JsonResource
+class GraphItemResource extends JsonResource
 {
     public static $wrap = null;
     

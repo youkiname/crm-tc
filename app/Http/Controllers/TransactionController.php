@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 use App\Http\Resources\TransactionResource;
 use App\Http\Resources\TransactionsResource;
+use App\Http\Resources\GraphListResource;
 
 use App\Models\Transaction;
 
@@ -69,6 +71,14 @@ class TransactionController extends Controller
         return response()->json([
             'amount' => $sum / $amount,
         ]);
+    }
+
+    public function getAverageSumGraph(Request $request) {
+        $collection = Transaction::select(DB::raw('DATE(created_at) as date, sum(amount)/count(*) as amount'));
+        $collection = $this->applyFilter($collection, $request);
+        $collection = $this->applyDateFilter($collection, $request->start_date, $request->end_date);
+        $collection = $collection->groupBy('date')->get();
+        return new GraphListResource($collection);
     }
 
     public function getBonusesIncrementSum(Request $request) {

@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Resources\ShopStatisticsResource;
 use App\Http\Resources\CustomerStatisticsResource;
-use App\Http\Resources\VisitorAmountListResource;
+use App\Http\Resources\GraphListResource;
 
 use App\Models\Shop;
 use App\Models\User;
@@ -40,7 +40,7 @@ class StatisticController extends Controller
         })
         ->groupBy('date')
         ->get();
-        return new VisitorAmountListResource($collection);
+        return new GraphListResource($collection);
     }
 
     public function getShopStatistics() {
