@@ -54,7 +54,10 @@ class StatisticController extends Controller
 
     public function getCustomerStatistics(Request $request) {
         $customer_role_id = Role::where('name', 'customer')->first()->id;
-        $customers = User::where('role_id', $customer_role_id);
+        $customers = User::where('role_id', $customer_role_id)
+        ->when($request->q, function ($query, $searchQuery) {
+            $query->where('first_name', 'LIKE', '%' . $searchQuery . '%');
+        });
         $customers = $this->tryAddPaginationAndLimit($customers, $request);
         return new CustomerStatisticsResource($customers);
     }
