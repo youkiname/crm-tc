@@ -14,11 +14,8 @@ class AdsBannerController extends Controller
 {
     public function index(Request $request)
     {
-        $limit = 2;
-        if($request->limit) {
-            $limit = $request->limit;
-        }
-        $collection = AdsBanner::inRandomOrder()->limit($limit)->get();
+        $collection = AdsBanner::where('is_active', true);
+        $collection = $this->tryAddPaginationAndLimit($collection, $request);
         return new AdsBannersResource($collection);
     }
 

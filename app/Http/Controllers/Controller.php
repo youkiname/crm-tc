@@ -38,6 +38,16 @@ class Controller extends BaseController
         return $code;
     }
 
+    protected function tryAddPaginationAndLimit($collection, $request) {
+        if ($request->limit) {
+            return $collection->limit($request->limit)->get();
+        }
+        if ($request->paginate) {
+            return $collection->paginate($request->paginate);
+        }
+        return $collection->get();
+    }
+
     private function storeImage($requestFile, $directory) {
         $file = $request->file('image');
         $filename = date('YmdHi').$file->getClientOriginalName();

@@ -21,7 +21,9 @@ class TransactionController extends Controller
         $collection = Transaction::where('amount', '>', 0);
         $collection = $this->applyFilter($collection, $request);
         $collection = $this->applyDateFilter($collection, $request->start_date, $request->end_date);
-        return new TransactionsResource($collection->get());
+        $collection = $collection->orderBy('created_at', 'desc');
+        $collection = $this->tryAddPaginationAndLimit($collection, $request);
+        return new TransactionsResource($collection);
     }
 
     public function getAmountSum(Request $request) {

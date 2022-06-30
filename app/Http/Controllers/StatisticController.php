@@ -43,15 +43,17 @@ class StatisticController extends Controller
         return new GraphListResource($collection);
     }
 
-    public function getShopStatistics() {
-        $shops = Shop::all();
+    public function getShopStatistics(Request $request) {
+        $shops = Shop::where('shopping_center_id', 1);
+        $shops = $this->tryAddPaginationAndLimit($shops, $request);
         return new ShopStatisticsResource($shops);
     }
 
-    public function getCustomerStatistics() {
+    public function getCustomerStatistics(Request $request) {
         $customer_role_id = Role::where('name', 'customer')->first()->id;
-        $users = User::where('role_id', $customer_role_id)->get();
-        return new CustomerStatisticsResource($users);
+        $customers = User::where('role_id', $customer_role_id);
+        $customers = $this->tryAddPaginationAndLimit($customers, $request);
+        return new CustomerStatisticsResource($customers);
     }
 
     public function getVisitorsAmountToday()
