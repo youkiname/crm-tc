@@ -43,6 +43,14 @@ class StatisticController extends Controller
         return new GraphListResource($collection);
     }
 
+    public function getVisitorsGraphMonth(Request $request){
+        $collection = Visitor::select(DB::raw('created_at as date, count(*) as amount'))
+        ->where('created_at', '>=', Carbon::now()->subDays(30))
+        ->groupBy('date')
+        ->get();
+        return new GraphListResource($collection);
+    }
+
     public function getShopStatistics(Request $request) {
         $shops = Shop::where('shopping_center_id', 1)
         ->when($request->q, function ($query, $searchQuery) {
