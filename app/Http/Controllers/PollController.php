@@ -32,18 +32,18 @@ class PollController extends Controller
 
     public function getCenters(Request $request) {
         // Выбираем все ТЦ, для которых есть опросы
-        // + добавляем к ним поле unselected_polls_amount, в котором 
+        // + добавляем к ним поле unselected_polls_amount, в котором
         // содержится кол-во опросов для этого тц, которые пользователь не прошёл.
         $centers = DB::select(
             DB::raw('SELECT *, (
-            SELECT count(*) FROM `polls` 
-            WHERE polls.shopping_center_id = shopping_centers.id AND polls.id NOT IN 
-                (SELECT poll_votes.poll_id FROM poll_votes 
-                 WHERE poll_votes.user_id=? 
+            SELECT count(*) FROM `polls`
+            WHERE polls.shopping_center_id = shopping_centers.id AND polls.id NOT IN
+                (SELECT poll_votes.poll_id FROM poll_votes
+                 WHERE poll_votes.user_id=?
                  GROUP BY poll_votes.poll_id)
-            ) as unselected_polls_amount 
-            FROM shopping_centers WHERE id IN 
-            (SELECT polls.shopping_center_id FROM polls 
+            ) as unselected_polls_amount
+            FROM shopping_centers WHERE id IN
+            (SELECT polls.shopping_center_id FROM polls
              GROUP BY polls.shopping_center_id)
             ORDER BY unselected_polls_amount DESC
              '), [$request->user()->id]
@@ -96,5 +96,21 @@ class PollController extends Controller
     {
         Poll::where('id', $id)->delete();
         return $this->jsonSuccess();
+    }
+
+    public function activatePoll($id)
+    {
+        Poll::where('id', $id)->update(['is_active' => 1]);
+        return response()->json([
+            'success' => true,
+        ]);
+    }
+
+    public function deactivatePoll($id)
+    {
+        Poll::where('id', $id)->update(['is_active' => 0]);
+        return response()->json([
+            'success' => true,
+        ]);
     }
 }

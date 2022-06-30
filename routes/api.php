@@ -68,6 +68,8 @@ Route::post('register', [RegistrationController::class, 'registerCustomer']);
 
     Route::post('polls/make_choice', [PollController::class, 'makeChoice']);
     Route::get('polls/shopping_centers', [PollController::class, 'getCenters']);
+    Route::put('polls/activate/{id}', [PollController::class, 'activatePoll']);
+    Route::put('polls/deactivate/{id}', [PollController::class, 'deactivatePoll']);
     Route::resource('polls', PollController::class);
 
     Route::get('statistic/shops', [StatisticController::class, 'getShopStatistics']);
