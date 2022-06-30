@@ -61,6 +61,9 @@ Route::post('register', [RegistrationController::class, 'registerCustomer']);
     Route::resource('shops', ShopController::class);
     Route::resource('messages', MessageController::class);
     Route::resource('transactions', TransactionController::class);
+
+    Route::put('banners/activate/{id}', [AdsBannerController::class, 'activateBanner']);
+    Route::put('banners/deactivate/{id}', [AdsBannerController::class, 'deactivateBanner']);
     Route::resource('banners', AdsBannerController::class);
 
     Route::post('polls/make_choice', [PollController::class, 'makeChoice']);
