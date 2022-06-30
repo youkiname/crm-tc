@@ -44,7 +44,10 @@ class StatisticController extends Controller
     }
 
     public function getShopStatistics(Request $request) {
-        $shops = Shop::where('shopping_center_id', 1);
+        $shops = Shop::where('shopping_center_id', 1)
+        ->when($request->q, function ($query, $searchQuery) {
+            $query->where('name', 'LIKE', '%' . $searchQuery . '%');
+        });
         $shops = $this->tryAddPaginationAndLimit($shops, $request);
         return new ShopStatisticsResource($shops);
     }
