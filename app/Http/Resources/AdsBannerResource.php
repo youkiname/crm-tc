@@ -17,6 +17,11 @@ class AdsBannerResource extends JsonResource
             'image_link' => 'https://api.top-sistem.ru' . $this->image_link,
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
+            'shop' => [
+                'id' => $this->shop->id,
+                'name' => $this->shop->name,
+                'category' => $this->shop->category->name,
+            ],
             'is_active' => $this->is_active,
         ];
     }
