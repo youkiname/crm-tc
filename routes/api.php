@@ -44,7 +44,7 @@ Route::post('register/renter', [RegistrationController::class, 'registerRenter']
 Route::post('register/admin', [RegistrationController::class, 'registerAdmin']);
 Route::post('register', [RegistrationController::class, 'registerCustomer']);
 
-Route::middleware('auth:sanctum')->group(function () {
+// Route::middleware('auth:sanctum')->group(function () {
     Route::post('users/verify_email', [VerificationController::class, 'verify']);
     Route::post('users/reset_password', [ResetPasswordController::class, 'resetPassword']);
     Route::get('users/verify_password_reset', [ResetPasswordController::class, 'verifyPasswordReset']);
@@ -81,4 +81,4 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('statistic/visitors/month', [StatisticController::class, 'getVisitorsAmountMonth']);
     Route::post('statistic/visitors', [StatisticController::class, 'storeVisitor']);
     Route::get('statistic/visitors_graph', [StatisticController::class, 'getVisitorsGraph']);
-});
+// });
