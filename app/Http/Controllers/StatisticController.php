@@ -89,7 +89,7 @@ class StatisticController extends Controller
         foreach ($ageGroups as $ageGroup) {
             $amount = Visitor::select("visitors.user_id, year(now()) - year(users.birth_date) as age")
             ->join('users', 'visitors.user_id', '=', 'users.id')
-            ->whereBetween('age', [$ageGroup[0], $ageGroup[1]])
+            ->whereBetween('year(now()) - year(users.birth_date)', [$ageGroup[0], $ageGroup[1]])
             ->count();
             array_push($result, [
                 'group' => sprintf("%d-%d", $ageGroup[0], $ageGroup[1]),
