@@ -87,4 +87,5 @@ Route::post('register', [RegistrationController::class, 'registerCustomer']);
     Route::post('statistic/visitors', [StatisticController::class, 'storeVisitor']);
     Route::get('statistic/visitors_graph', [StatisticController::class, 'getVisitorsGraph']);
     Route::get('statistic/visitors_graph/month', [StatisticController::class, 'getVisitorsGraphMonth']);
+    Route::get('statistic/visitors/age_plot', [StatisticController::class, 'getVisitorsAgePlot']);
 // });

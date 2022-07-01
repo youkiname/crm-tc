@@ -74,6 +74,31 @@ class StatisticController extends Controller
         ]);
     }
 
+    public function getVisitorsAgePlot()
+    {
+        $ageGroups = [
+            [0, 17],
+            [18, 24],
+            [25, 30],
+            [31, 35],
+            [36, 40],
+            [41, 45],
+            [46, 50],
+        ];
+        $result = [];
+        foreach ($ageGroups as $ageGroup) {
+            $amount = Visitor::select("visitors.user_id, year(now()) - year(users.birth_date) as age")
+            ->join('users', 'visitors.user_id', '=', 'users.id')
+            ->whereBetween('age', [$ageGroup[0], $ageGroup[1]])
+            ->count();
+            array_push($result, [
+                'group' => sprintf("%d-%d", $ageGroup[0], $ageGroup[1]),
+                'amount' => $amount,
+            ]);
+        }
+        return response()->json($result);
+    }
+
     private function getVisitorsGraphData($startDate=null, $endDate=null) {
         $collection = Visitor::select(DB::raw('created_at as date, count(*) as amount'))
         ->when($startDate, function ($query, $startDate) {
