@@ -14,7 +14,7 @@ class AdsBannerController extends Controller
 {
     public function index(Request $request)
     {
-        $collection = AdsBanner::where('is_active', true);
+        $collection = AdsBanner::orderBy('created_at');
         $collection = $this->tryAddPaginationAndLimit($collection, $request);
         return new AdsBannersResource($collection);
     }

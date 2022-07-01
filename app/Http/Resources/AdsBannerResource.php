@@ -23,6 +23,7 @@ class AdsBannerResource extends JsonResource
                 'category' => $this->shop->category->name,
             ],
             'is_active' => $this->is_active,
+            'created_at' => $this->created_at
         ];
     }
 }

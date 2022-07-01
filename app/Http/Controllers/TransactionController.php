@@ -57,9 +57,13 @@ class TransactionController extends Controller
 
         $sum = $collection->sum('amount');
         $amount = $collection->count();
+        $average = 0;
+        if ($amount != 0) {
+            $average = $sum / $amount;
+        }
 
         return response()->json([
-            'amount' => $sum / $amount,
+            'amount' => $average
         ]);
     }
 
@@ -69,9 +73,13 @@ class TransactionController extends Controller
 
         $sum = $collection->sum('amount');
         $amount = $collection->count();
+        $average = 0;
+        if ($amount != 0) {
+            $average = $sum / $amount;
+        }
 
         return response()->json([
-            'amount' => $sum / $amount,
+            'amount' => $average,
         ]);
     }
 
