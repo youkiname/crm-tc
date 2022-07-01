@@ -11,6 +11,7 @@ class CardStatus extends Model
 
     protected $fillable = [
         'name',
+        'cashback',
         'threshold',
     ];
 }

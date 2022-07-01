@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('card_statuses', function (Blueprint $table) {
             $table->id();
             $table->string("name");
+            $table->integer("cashback");
             $table->integer("threshold");
             $table->timestamps();
         });
