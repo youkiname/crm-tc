@@ -31,24 +31,11 @@ class StatisticController extends Controller
     }
 
     public function getVisitorsGraph(Request $request){
-        $collection = Visitor::select(DB::raw('created_at as date, count(*) as amount'))
-        ->when($request->start_date, function ($query, $startDate) {
-            $query->where('created_at', '>=', $startDate);
-        })
-        ->when($request->end_date, function ($query, $endDate) {
-            $query->where('created_at', '<=', $endDate);
-        })
-        ->groupBy('date')
-        ->get();
-        return new GraphListResource($collection);
+        return $this->getVisitorsGraphData($request->start_date, $request->end_date);
     }
 
     public function getVisitorsGraphMonth(Request $request){
-        $collection = Visitor::select(DB::raw('created_at as date, count(*) as amount'))
-        ->where('created_at', '>=', Carbon::now()->subDays(30))
-        ->groupBy('date')
-        ->get();
-        return new GraphListResource($collection);
+        return $this->getVisitorsGraphData(Carbon::now()->subDays(30));
     }
 
     public function getShopStatistics(Request $request) {
@@ -85,5 +72,18 @@ class StatisticController extends Controller
         return response()->json([
             'amount' => $amount,
         ]);
+    }
+
+    private function getVisitorsGraphData($startDate=null, $endDate=null) {
+        $collection = Visitor::select(DB::raw('created_at as date, count(*) as amount'))
+        ->when($startDate, function ($query, $startDate) {
+            $query->where('created_at', '>=', $startDate);
+        })
+        ->when($endDate, function ($query, $endDate) {
+            $query->where('created_at', '<=', $endDate);
+        })
+        ->groupBy('date')
+        ->get();
+        return new GraphListResource($collection);
     }
 }
