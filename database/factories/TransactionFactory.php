@@ -28,6 +28,7 @@ class TransactionFactory extends Factory
             'shop_id' => Shop::inRandomOrder()->first()->id,
             "bonuses_offset" => $this->faker->numberBetween($min = -200, $max = 200),
             "amount" => $this->faker->numberBetween($min = 5, $max = 400),
+            'created_at' => $this->faker->dateTimeThisMonth($max = 'now', $timezone = "UTC")
         ];
     }
 }

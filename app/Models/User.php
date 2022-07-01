@@ -112,6 +112,9 @@ class User extends Authenticatable
 
     public function card($shoppingCenterId = 1) {
         $cardAccount = $this->account($shoppingCenterId);
+        if (!$cardAccount) {
+            return null;
+        }
         $nextStatus = null;
         if ($cardAccount->nextStatus()) {
             $nextStatus = $cardAccount->nextStatus()->name;

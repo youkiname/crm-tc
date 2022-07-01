@@ -24,7 +24,6 @@ class RegistrationRequest extends ApiFormRequest
             'mobile' => 'required|regex:/\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/',
             'birth_date' => 'required|date',
             'password' => 'required',
-            'is_seller' => 'boolean',
         ];
     }
 }

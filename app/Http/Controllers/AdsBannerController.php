@@ -14,11 +14,8 @@ class AdsBannerController extends Controller
 {
     public function index(Request $request)
     {
-        $limit = 2;
-        if($request->limit) {
-            $limit = $request->limit;
-        }
-        $collection = AdsBanner::inRandomOrder()->limit($limit)->get();
+        $collection = AdsBanner::orderBy('created_at');
+        $collection = $this->tryAddPaginationAndLimit($collection, $request);
         return new AdsBannersResource($collection);
     }
 
@@ -52,5 +49,21 @@ class AdsBannerController extends Controller
     {
         AdsBanner::where('id', $id)->delete();
         return $this->jsonSuccess();
+    }
+
+    public function activateBanner($id)
+    {
+        AdsBanner::where('id', $id)->update(['is_active' => 1]);
+        return response()->json([
+            'success' => true,
+        ]);
+    }
+
+    public function deactivateBanner($id)
+    {
+        AdsBanner::where('id', $id)->update(['is_active' => 0]);
+        return response()->json([
+            'success' => true,
+        ]);
     }
 }

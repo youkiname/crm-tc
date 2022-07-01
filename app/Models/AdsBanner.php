@@ -22,4 +22,9 @@ class AdsBanner extends Model
         'min_balance',
         'max_balance',
     ];
+
+    public function shop()
+    {
+        return $this->belongsTo(Shop::class, 'shop_id', 'id');
+    }
 }

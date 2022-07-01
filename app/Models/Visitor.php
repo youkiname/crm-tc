@@ -5,13 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CardStatus extends Model
+class Visitor extends Model
 {
     use HasFactory;
 
+    protected $dateFormat = 'Y-m-d';
+
     protected $fillable = [
-        'name',
-        'cashback',
-        'threshold',
+        'user_id',
+        'shopping_center_id',
     ];
 }

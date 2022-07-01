@@ -20,8 +20,10 @@ public function toArray($request)
             'renter_name' => $this->renter->fullName(),
             'transactions_per_week' => $this->getTransactionsAmount(Carbon::now()->subDays(7)),
             'transactions_per_month' => $this->getTransactionsAmount(Carbon::now()->subDays(30)),
+            'transactions_per_year' => $this->getTransactionsAmount(Carbon::now()->subYear()),
             'income_per_week' => $this->getIncomeAmount(Carbon::now()->subDays(7)),
             'income_per_month' => $this->getIncomeAmount(Carbon::now()->subDays(30)),
+            'income_per_year' => $this->getIncomeAmount(Carbon::now()->subYear()),
         ];
     }
 

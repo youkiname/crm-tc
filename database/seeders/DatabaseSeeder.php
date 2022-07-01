@@ -29,22 +29,27 @@ class DatabaseSeeder extends Seeder
 
         CardStatus::create([
             'name' => 'Bronze',
+            'cashback' => 10,
             'threshold' => 0,
         ]);
         CardStatus::create([
             'name' => 'Silver',
+            'cashback' => 15,
             'threshold' => 100,
         ]);
         CardStatus::create([
             'name' => 'Gold',
+            'cashback' => 20,
             'threshold' => 1000,
         ]);
         CardStatus::create([
             'name' => 'Platinum',
+            'cashback' => 25,
             'threshold' => 3000,
         ]);
         CardStatus::create([
             'name' => 'VIP',
+            'cashback' => 30,
             'threshold' => 5000,
         ]);
 
@@ -83,6 +88,7 @@ class DatabaseSeeder extends Seeder
             TransactionSeeder::class,
             PollSeeder::class,
             AdsBannerSeeder::class,
+            VisitorSeeder::class,
         ]);
     }
 }

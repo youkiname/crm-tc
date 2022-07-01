@@ -22,6 +22,7 @@ class PollResource extends JsonResource
             'created_at' => $this->created_at,
             'choices' => new PollChoicesResource($this->choices),
             'selected' => $selected,
+            'is_active' => $this->is_active
         ];
     }
 }
