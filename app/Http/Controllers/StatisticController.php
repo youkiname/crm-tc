@@ -76,27 +76,22 @@ class StatisticController extends Controller
 
     public function getVisitorsAgePlot()
     {
-        $ageGroups = [
-            [0, 17],
-            [18, 24],
-            [25, 30],
-            [31, 35],
-            [36, 40],
-            [41, 45],
-            [46, 50],
-        ];
-        $result = [];
-        foreach ($ageGroups as $ageGroup) {
-            $amount = Visitor::select("visitors.user_id, year(now()) - year(users.birth_date) as age")
-            ->join('users', 'visitors.user_id', '=', 'users.id')
-            ->whereRaw('year(now()) - year(users.birth_date) between ? AND ?', [$ageGroup[0], $ageGroup[1]])
-            ->count();
-            array_push($result, [
-                'group' => sprintf("%d-%d", $ageGroup[0], $ageGroup[1]),
-                'amount' => $amount,
-            ]);
-        }
-        return response()->json($result);
+        return $this->getVisitorsAgePlotData();
+    }
+
+    public function getVisitorsAgePlotWeek()
+    {
+        return $this->getVisitorsAgePlotData(Carbon::now()->subDays(7));
+    }
+
+    public function getVisitorsAgePlotMonth()
+    {
+        return $this->getVisitorsAgePlotData(Carbon::now()->subDays(30));
+    }
+
+    public function getVisitorsAgePlotYear()
+    {
+        return $this->getVisitorsAgePlotData(Carbon::now()->subDays(365));
     }
 
     private function getVisitorsGraphData($startDate=null, $endDate=null) {
@@ -110,5 +105,32 @@ class StatisticController extends Controller
         ->groupBy('date')
         ->get();
         return new GraphListResource($collection);
+    }
+
+    private function getVisitorsAgePlotData($startDate=null) {
+        $ageGroups = [
+            [0, 17],
+            [18, 24],
+            [25, 30],
+            [31, 35],
+            [36, 40],
+            [41, 45],
+            [46, 50],
+        ];
+        $result = [];
+        foreach ($ageGroups as $ageGroup) {
+            $amount = Visitor::select("visitors.created_at, visitors.user_id, year(now()) - year(users.birth_date) as age")
+            ->join('users', 'visitors.user_id', '=', 'users.id')
+            ->when($startDate, function ($query, $startDate) {
+                $query->where('visitors.created_at', '>=', $startDate);
+            })
+            ->whereRaw('year(now()) - year(users.birth_date) between ? AND ?', [$ageGroup[0], $ageGroup[1]])
+            ->count();
+            array_push($result, [
+                'group' => sprintf("%d-%d", $ageGroup[0], $ageGroup[1]),
+                'amount' => $amount,
+            ]);
+        }
+        return response()->json($result);
     }
 }
