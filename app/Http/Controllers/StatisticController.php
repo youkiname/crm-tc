@@ -16,6 +16,7 @@ use App\Http\Resources\GraphListResource;
 use App\Models\Shop;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Transaction;
 
 class StatisticController extends Controller
 
@@ -117,7 +118,7 @@ class StatisticController extends Controller
             [41, 45],
             [46, 50],
         ];
-        $result = [];
+        $plotData = [];
         foreach ($ageGroups as $ageGroup) {
             $amount = Visitor::select("visitors.created_at, visitors.user_id, year(now()) - year(users.birth_date) as age")
             ->join('users', 'visitors.user_id', '=', 'users.id')
@@ -126,11 +127,48 @@ class StatisticController extends Controller
             })
             ->whereRaw('year(now()) - year(users.birth_date) between ? AND ?', [$ageGroup[0], $ageGroup[1]])
             ->count();
-            array_push($result, [
+            array_push($plotData, [
                 'group' => sprintf("%d-%d", $ageGroup[0], $ageGroup[1]),
                 'amount' => $amount,
             ]);
         }
-        return response()->json($result);
+        $genderRate = $this->getVisitorsGenderRate($startDate);
+        return response()->json([
+            'plot' => $plotData,
+            'male_rate' => $genderRate['male'],
+            'female_rate' => $genderRate['female'],
+            'average_check' => $this->getAverageCheck($startDate),
+        ]);
+    }
+
+    private function getVisitorsGenderRate($startDate=null) {
+        $all = Visitor::when($startDate, function ($query, $startDate) {
+            $query->where('created_at', '>=', $startDate);
+        })->count();
+        $visitorGenders = Visitor::select("users.gender", DB::RAW("count(*) as amount"))
+        ->join('users', 'visitors.user_id', '=', 'users.id')
+        ->when($startDate, function ($query, $startDate) {
+            $query->where('visitors.created_at', '>=', $startDate);
+        })
+        ->groupBy('gender')
+        ->get();
+        $result = [];
+        foreach ($visitorGenders as $gender) {
+            $result[$gender->gender] = round($gender->amount / $all, 2);
+        }
+        return $result;
+    }
+
+    private function getAverageCheck($startDate=null) {
+        $transactionsAmount = Transaction::when($startDate, function ($query, $startDate) {
+            $query->where('created_at', '>=', $startDate);
+        })->count();
+        if ($transactionsAmount == 0) {
+            return 0;
+        }
+        $transactionsSum = Transaction::when($startDate, function ($query, $startDate) {
+            $query->where('created_at', '>=', $startDate);
+        })->sum('amount');
+        return round($transactionsSum / $transactionsAmount, 2);
     }
 }
