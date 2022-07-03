@@ -37,6 +37,7 @@ Route::get('auth/seller', [AuthController::class, 'authSeller']);
 Route::get('auth/renter', [AuthController::class, 'authRenter']);
 Route::get('auth/admin', [AuthController::class, 'authAdmin']);
 Route::get('auth', [AuthController::class, 'authCustomer']);
+Route::get('auth/verify', [AuthController::class, 'verifyAuth']);
 
 Route::post('register/customer', [RegistrationController::class, 'registerCustomer']);
 Route::post('register/seller', [RegistrationController::class, 'registerSeller']);

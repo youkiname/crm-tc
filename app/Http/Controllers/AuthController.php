@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\AuthRequest;
+use App\Mail\AuthVerification;
 
 use App\Http\Resources\AuthenticatedUserResource;
 
 use App\Models\User;
 use App\Models\Role;
+use App\Models\AuthVerificationCode;
+
+use Carbon\Carbon;
 
 class AuthController extends Controller
 {
@@ -32,6 +36,16 @@ class AuthController extends Controller
         return $this->auth($request, $roleId);
     }
 
+    public function verifyAuth(VerifyAuthRequest $request) {
+        $verification = AuthVerificationCode::where('email', $request->email)
+        ->where('code', $request->code)->first();
+        if (!$verification) {
+            $this->jsonAbort('Wrong code', 404);
+        }
+        $verification->delete();
+        return $this->getAuthenticatedUserData($verification->user);
+    }
+
     private function auth(AuthRequest $request, $roleId)
     {
         $user = User::where('email', $request->email)
@@ -41,7 +55,36 @@ class AuthController extends Controller
         if (!$user) {
             $this->jsonAbort('Wrong email or password', 401);
         }
+        return $this->getAuthenticatedUserData($user);
+    }
+
+    private function twoFactorAuth(AuthRequest $request, $roleId)
+    {
+        $user = User::where('email', $request->email)
+        ->where('password', $request->password)
+        ->where('role_id', $roleId)
+        ->first();
+        if (!$user) {
+            $this->jsonAbort('Wrong email or password', 401);
+        }
+        $this->sendAuthVerificationCode($user);
+        return response()->json([
+            'success' => true,
+        ]);
+    }
+
+    private function getAuthenticatedUserData($user) {
         $token = $user->createToken('api_token')->plainTextToken;
         return AuthenticatedUserResource::make($user)->addToken($token);
+    }
+
+    private function sendAuthVerificationCode($user) {
+        $code = $this->generateCode(5);
+        AuthVerificationCode::create([
+            'email' => $user->email,
+            'code' => $code,
+            'expires_at' => Carbon::tomorrow(),
+        ]);
+        Mail::to($user->email)->send(new AuthVerification($code));
     }
 }
