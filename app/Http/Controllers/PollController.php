@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Requests\MakeChoiceRequest;
 use App\Http\Requests\CreatePollRequest;
+use App\Http\Requests\UpdatePollRequest;
 
 use App\Http\Resources\PollResource;
 use App\Http\Resources\PollsResource;
@@ -73,12 +74,7 @@ class PollController extends Controller
             'title' => $request->title,
             'description' => $request->description ?? '',
         ]);
-        foreach ($request->choices as $choice) {
-            PollChoice::create([
-                'poll_id' => $poll->id,
-                'title' => $choice
-            ]);
-        }
+        $this->createChoices($poll->id, $request->choices);
         return new PollResource($poll);
     }
 
@@ -87,9 +83,20 @@ class PollController extends Controller
         return new PollResource($poll);
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdatePollRequest $request, $id)
     {
-        //
+        $poll = Poll::find($id);
+        $poll->title = $request->title ?? $poll->title;
+        $poll->description = $request->description ?? $poll->description;
+        $poll->is_active = $request->is_active ?? $poll->is_active;
+        $poll->save();
+
+        if ($request->choices) {
+            $poll->choices->delete();
+            $this->createChoices($poll->id, $request->choices);
+        }
+
+        return new PollResource($poll);
     }
 
     public function destroy($id)
@@ -112,5 +119,14 @@ class PollController extends Controller
         return response()->json([
             'success' => true,
         ]);
+    }
+
+    private function createChoices($pollId, $choices) {
+        foreach ($request->choices as $choice) {
+            PollChoice::create([
+                'poll_id' => $poll->id,
+                'title' => $choice
+            ]);
+        }
     }
 }

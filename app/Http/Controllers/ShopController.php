@@ -53,7 +53,16 @@ class ShopController extends Controller
 
     public function update(Request $request, $id)
     {
-        //
+        $shop = Shop::find($id);
+        $shop->name = $request->name ?? $shop->name;
+        $shop->category_id = $request->category_id ?? $shop->category_id;
+        if ($request->file('avatar')) {
+            $shop->avatar_link = $this->saveAvatar($request);
+        }
+        $shop->save();
+        $renter = $shop->renter;
+        $this->updateRenter($renter, $request);
+        return new ShopResource($shop);
     }
 
     public function destroy($id)
@@ -73,5 +82,11 @@ class ShopController extends Controller
             return $this->storeImage($request->file('avatar'), 'static/shop_avatars');
         }
         return null;
+    }
+
+    private function updateRenter($renter, $request) {
+        $renter->first_name = $request->renter_name ?? $renter->first_name;
+        $renter->phone = $renter->renter_phone ?? $renter->phone;
+        $renter->email = $renter->renter_email ?? $renter->email;
     }
 }

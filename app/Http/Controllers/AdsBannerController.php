@@ -42,7 +42,22 @@ class AdsBannerController extends Controller
 
     public function update(Request $request, $id)
     {
-        //
+        $banner = AdsBanner::find($id);
+        $banner->name = $request->name ?? $banner->name;
+        $banner->start_date = $request->start_date ?? $banner->start_date;
+        $banner->end_date = $request->end_date ?? $banner->end_date;
+        $banner->min_age = $request->min_age ?? $banner->min_age;
+        $banner->max_age = $request->max_age ?? $banner->max_age;
+        $banner->min_balance = $request->min_balance ?? $banner->min_balance;
+        $banner->max_balance = $request->max_balance ?? $banner->max_balance;
+
+        if ($request->file('image')) {
+            $imageLink = $this->storeImage($request->file('image'), 'static/banners');
+            $banner->image_link = $imageLink;
+        }
+        $banner->save();
+
+        return new AdsBannerResource($banner);
     }
 
     public function destroy($id)
