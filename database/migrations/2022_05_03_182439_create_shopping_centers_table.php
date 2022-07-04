@@ -6,11 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('shopping_centers', function (Blueprint $table) {
@@ -19,17 +14,12 @@ return new class extends Migration
             $table->string('description');
             $table->string('address');
             $table->string('avatar_link')->nullable();
-            $table->string('city');
+            $table->foreignId('city_id')->nullable()->references('id')->on('cities')->onDelete('set null');
             $table->string('coordinates');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('shopping_centers');

@@ -15,7 +15,7 @@ class ShoppingCenterResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'address' => $this->address,
-            'city' => $this->city,
+            'city' => $this->city ? $this->city->name : null,
             'coordinates' => [
                 'lat' => $this->latitude(),
                 'long' => $this->longitude(),

@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\CityController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\VerificationController;
@@ -60,6 +61,7 @@ Route::middleware('custom.auth')->group(function () {
     Route::post('users/update_bonuses', [CardController::class, 'updateBonuses']);
     Route::post('cards/update_bonuses', [CardController::class, 'updateBonuses']);
 
+    Route::resource('cities', CityController::class);
     Route::resource('users', UserController::class);
     Route::resource('card_statuses', CardStatusController::class);
     Route::resource('shopping_centers', ShoppingCenterController::class);

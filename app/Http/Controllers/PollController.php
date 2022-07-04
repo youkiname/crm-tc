@@ -122,9 +122,9 @@ class PollController extends Controller
     }
 
     private function createChoices($pollId, $choices) {
-        foreach ($request->choices as $choice) {
+        foreach ($choices as $choice) {
             PollChoice::create([
-                'poll_id' => $poll->id,
+                'poll_id' => $pollId,
                 'title' => $choice
             ]);
         }

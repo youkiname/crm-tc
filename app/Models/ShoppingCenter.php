@@ -14,9 +14,14 @@ class ShoppingCenter extends Model
         'description',
         'address',
         'avatar_link',
-        'city',
+        'city_id',
         'coordinates',
     ];
+
+    public function city()
+    {
+        return $this->belongsTo(City::class, 'city_id', 'id');
+    }
 
     public function shops()
     {
