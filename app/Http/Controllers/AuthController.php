@@ -8,6 +8,7 @@ use App\Http\Requests\AuthRequest;
 use App\Mail\AuthVerification;
 
 use App\Http\Resources\AuthenticatedUserResource;
+use App\Http\Resources\UserResource;
 
 use App\Models\User;
 use App\Models\Role;
@@ -45,6 +46,10 @@ class AuthController extends Controller
         }
         $verification->delete();
         return $this->getAuthenticatedUserData($verification->user);
+    }
+
+    public function getMe(Request $request) {
+        return new UserResource($request->user());
     }
 
     private function auth(AuthRequest $request, $roleId)
