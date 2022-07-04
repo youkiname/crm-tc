@@ -26,6 +26,7 @@ class AdsBannerResource extends JsonResource
             'max_balance' => $this->max_balance,
             'min_age' => $this->max_balance,
             'max_age' => $this->max_balance,
+            'age_range' => $this->min_age . '-' . $this->max_age,
             'gender' => $this->gender,
             'is_active' => $this->is_active,
             'created_at' => $this->created_at
