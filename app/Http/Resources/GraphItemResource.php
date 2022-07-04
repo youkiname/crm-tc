@@ -12,7 +12,7 @@ class GraphItemResource extends JsonResource
     {
         return [
             'date' => $this->date,
-            'amount' => $this->amount,
+            'amount' => intval($this->amount),
         ];
     }
 }
