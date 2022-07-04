@@ -85,6 +85,7 @@ class DatabaseSeeder extends Seeder
             CardAccountSeeder::class,
             ShopSeeder::class,
             SellerShopBundleSeeder::class,
+            AdminShoppingCenterBundleSeeder::class,
             TransactionSeeder::class,
             PollSeeder::class,
             AdsBannerSeeder::class,

@@ -23,7 +23,7 @@ class CustomAuth
         $password = $request->header('password');
         $user = User::where('email', $email)->first();
         if (!$user || !Hash::check($password, $user->password)) {
-            return route('api.unauthorized');
+            return response('unauthorized', 401);
         }
         Auth::login($user);
         return $next($request);

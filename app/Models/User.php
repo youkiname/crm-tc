@@ -86,6 +86,15 @@ class User extends Authenticatable
         return Shop::find($bundle->shop_id);
     }
 
+    /**
+     * Тц, к которому имеет доступ админ с ролью admin
+     */ 
+    public function shoppingCenter()
+    {
+        $bundle = AdminShoppingCenterBundle::where('admin_id', $this->id)->first();
+        return ShoppingCenter::find($bundle->shopping_center_id);
+    }
+
     public function role()
     {
         return $this->belongsTo(Role::class, 'role_id', 'id');

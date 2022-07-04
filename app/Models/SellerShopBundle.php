@@ -20,6 +20,6 @@ class SellerShopBundle extends Model
 
     public function shop()
     {
-        return $this->belongsTo(Shop::class, 'user_id', 'id');
+        return $this->belongsTo(Shop::class, 'shop_id', 'id');
     }
 }

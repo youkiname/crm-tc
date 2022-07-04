@@ -39,7 +39,7 @@ class ShopController extends Controller
             'renter_id' => $renter->id,
             'avatar_link' => $this->saveAvatar($request),
             'cashback' => $request->cashback ?? 0,
-            'shopping_center_id' => $request->shopping_center_id,
+            'shopping_center_id' => $request->user()->shoppingCenter()->id,
             'category_id' => $request->category_id,
         ]);
 

@@ -13,7 +13,9 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
         $this->withHeaders([
             'Authorization' => 'Bearer ' . $this->getAuthToken(),
-            'Accept' => 'application/json'
+            'Accept' => 'application/json',
+            'email' => 'admin@mail.ru',
+            'password' => '123123123',
         ]);
     }
 
