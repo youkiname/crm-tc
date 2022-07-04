@@ -22,6 +22,11 @@ class AdsBannerResource extends JsonResource
                 'name' => $this->shop->name,
                 'category' => $this->shop->category->name,
             ],
+            'min_balance' => $this->min_balance,
+            'max_balance' => $this->max_balance,
+            'min_age' => $this->max_balance,
+            'max_age' => $this->max_balance,
+            'gender' => $this->gender,
             'is_active' => $this->is_active,
             'created_at' => $this->created_at
         ];
