@@ -49,7 +49,7 @@ class Controller extends BaseController
     }
 
     protected function storeImage($requestFile, $directory) {
-        $file = $request->file('image');
+        $file = $requestFile;
         $filename = date('YmdHi').$file->getClientOriginalName();
         $file->move(public_path($directory), $filename);
         $result = '/' . $directory . '/' . $filename;

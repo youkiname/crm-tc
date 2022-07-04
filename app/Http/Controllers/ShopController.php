@@ -7,8 +7,10 @@ use App\Http\Requests\CreateShopRequest;
 
 use App\Http\Resources\ShopResource;
 use App\Http\Resources\ShopsResource;
+use App\Http\Resources\ShopCategoriesResource;
 
 use App\Models\Shop;
+use App\Models\ShopCategory;
 use App\Models\User;
 use App\Models\Role;
 
@@ -57,6 +59,12 @@ class ShopController extends Controller
     {
         Shop::where('id', $id)->delete();
         return $this->jsonSuccess();
+    }
+
+    public function getCategories()
+    {
+        $categories = ShopCategory::all();
+        return new ShopCategoriesResource($categories);
     }
 
     private function saveAvatar($request) {

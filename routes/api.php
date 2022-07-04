@@ -59,6 +59,7 @@ Route::post('register', [RegistrationController::class, 'registerCustomer']);
     Route::resource('users', UserController::class);
     Route::resource('card_statuses', CardStatusController::class);
     Route::resource('shopping_centers', ShoppingCenterController::class);
+    Route::get('shops/categories', [ShopController::class, 'getCategories']);
     Route::resource('shops', ShopController::class);
     Route::resource('messages', MessageController::class);
     Route::resource('transactions', TransactionController::class);
