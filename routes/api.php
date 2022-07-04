@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RegistrationController;
@@ -53,6 +54,7 @@ Route::middleware('custom.auth')->group(function () {
     Route::get('users/verify_password_reset', [ResetPasswordController::class, 'verifyPasswordReset']);
     Route::post('users/update_password', [ResetPasswordController::class, 'updatePassword']);
 
+    Route::post('admins/update_profile', [AdminController::class, 'updateProfile']);
     Route::post('users/update_profile', [UserController::class, 'updateProfile']);
 
     Route::post('users/update_bonuses', [CardController::class, 'updateBonuses']);
