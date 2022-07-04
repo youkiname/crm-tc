@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -26,7 +27,7 @@ class UserSeeder extends Seeder
             'gender' => "male",
             'phone' => "+79998887766",
             'birth_date' => "1999-08-22",
-            'password' => '123123123',
+            'password' => Hash::make('123123123'),
             'role_id' => $customerRoleId,
             'email_verified_at' => now()
         ]);
@@ -38,7 +39,7 @@ class UserSeeder extends Seeder
             'gender' => "male",
             'phone' => "+79998887766",
             'birth_date' => "1999-08-22",
-            'password' => '123123123',
+            'password' => Hash::make('123123123'),
             'role_id' => $sellerRoleId,
             'email_verified_at' => now()
         ]);
@@ -50,7 +51,7 @@ class UserSeeder extends Seeder
             'gender' => "male",
             'phone' => "+79998887766",
             'birth_date' => "1999-08-22",
-            'password' => '123123123',
+            'password' => Hash::make('123123123'),
             'role_id' => $renterRoleId,
             'email_verified_at' => now()
         ]);
@@ -62,7 +63,7 @@ class UserSeeder extends Seeder
             'gender' => "male",
             'phone' => "+79998887766",
             'birth_date' => "1999-08-22",
-            'password' => '123123123',
+            'password' => Hash::make('123123123'),
             'role_id' => $adminRoleId,
             'email_verified_at' => now()
         ]);
@@ -74,7 +75,7 @@ class UserSeeder extends Seeder
             'gender' => "male",
             'phone' => "+798856424367",
             'birth_date' => "1999-08-22",
-            'password' => '123123123',
+            'password' => Hash::make('123123123'),
             'role_id' => $customerRoleId,
             'email_verified_at' => now()
         ]);
@@ -86,7 +87,7 @@ class UserSeeder extends Seeder
             'gender' => "male",
             'phone' => "+798856424367",
             'birth_date' => "1999-08-22",
-            'password' => '123123123',
+            'password' => Hash::make('123123123'),
             'role_id' => $customerRoleId,
             'email_verified_at' => now()
         ]);
@@ -98,7 +99,7 @@ class UserSeeder extends Seeder
             'gender' => "male",
             'phone' => "89176276758",
             'birth_date' => "2003-09-29",
-            'password' => '123123123',
+            'password' => Hash::make('123123123'),
             'role_id' => $customerRoleId,
             'email_verified_at' => now()
         ]);
@@ -110,7 +111,7 @@ class UserSeeder extends Seeder
             'gender' => "male",
             'phone' => "+79888888888",
             'birth_date' => "2022-05-17",
-            'password' => '123123123',
+            'password' => Hash::make('123123123'),
             'role_id' => $customerRoleId,
             'email_verified_at' => now()
         ]);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateShopRequest;
 
@@ -28,7 +29,7 @@ class ShopController extends Controller
             'first_name' => $request->renter_name,
             'phone' => $request->renter_phone,
             'email' => $request->renter_email,
-            'password' => $request->renter_password,
+            'password' => Hash::make($request->renter_password),
             'role_id' => Role::where('name', 'renter')->first()->id,
             'card_number' => $this->generateCardNumber(),
         ]);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Http\Requests\AuthRequest;
 use App\Mail\AuthVerification;
@@ -49,10 +50,9 @@ class AuthController extends Controller
     private function auth(AuthRequest $request, $roleId)
     {
         $user = User::where('email', $request->email)
-        ->where('password', $request->password)
         ->where('role_id', $roleId)
         ->first();
-        if (!$user) {
+        if (!$user || !Hash::check($request->password, $user->password)) {
             $this->jsonAbort('Wrong email or password', 401);
         }
         return $this->getAuthenticatedUserData($user);
@@ -61,10 +61,9 @@ class AuthController extends Controller
     private function twoFactorAuth(AuthRequest $request, $roleId)
     {
         $user = User::where('email', $request->email)
-        ->where('password', $request->password)
         ->where('role_id', $roleId)
         ->first();
-        if (!$user) {
+        if (!$user || !Hash::check($request->password, $user->password)) {
             $this->jsonAbort('Wrong email or password', 401);
         }
         $this->sendAuthVerificationCode($user);
