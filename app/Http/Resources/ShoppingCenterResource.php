@@ -20,7 +20,7 @@ class ShoppingCenterResource extends JsonResource
                 'lat' => $this->latitude(),
                 'long' => $this->longitude(),
             ],
-            'avatar_link' => 'https://picsum.photos/500/500',
+            'avatar_link' => $this->avatar_link ?? 'https://picsum.photos/500/500',
             'shops' => new ShopsResource($this->shops)
         ];
     }

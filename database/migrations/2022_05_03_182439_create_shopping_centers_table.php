@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('description');
             $table->string('address');
+            $table->string('avatar_link')->nullable();
             $table->string('city');
             $table->string('coordinates');
             $table->timestamps();
