@@ -46,6 +46,7 @@ class AdsBannerController extends Controller
         $banner->name = $request->name ?? $banner->name;
         $banner->start_date = $request->start_date ?? $banner->start_date;
         $banner->end_date = $request->end_date ?? $banner->end_date;
+        $banner->gender = $request->gender ?? $banner->gender;
         $banner->min_age = $request->min_age ?? $banner->min_age;
         $banner->max_age = $request->max_age ?? $banner->max_age;
         $banner->min_balance = $request->min_balance ?? $banner->min_balance;
