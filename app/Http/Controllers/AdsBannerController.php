@@ -51,6 +51,7 @@ class AdsBannerController extends Controller
         $banner->max_age = $request->max_age ?? $banner->max_age;
         $banner->min_balance = $request->min_balance ?? $banner->min_balance;
         $banner->max_balance = $request->max_balance ?? $banner->max_balance;
+        $banner->is_active = $request->is_active ?? $banner->is_active;
 
         if ($request->file('image')) {
             $imageLink = $this->storeImage($request->file('image'), 'static/banners');
