@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\AuthRequest;
 use App\Mail\AuthVerification;
@@ -52,11 +53,18 @@ class AuthController extends Controller
         return new UserResource($request->user());
     }
 
+    public function logout() {
+        Auth::logout();
+    }
+
     private function auth(AuthRequest $request, $roleId)
     {
         $user = User::where('email', $request->email)
         ->where('role_id', $roleId)
         ->first();
+        // if (Auth::attempt($request->only('email', 'password'))) {
+        //     return new AuthenticatedUserResource(Auth::user());
+        // }
         if (!$user || !Hash::check($request->password, $user->password)) {
             $this->jsonAbort('Wrong email or password', 401);
         }

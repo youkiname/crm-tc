@@ -40,6 +40,8 @@ Route::get('auth/renter', [AuthController::class, 'authRenter']);
 Route::get('auth/admin', [AuthController::class, 'authAdmin']);
 Route::get('auth', [AuthController::class, 'authCustomer']);
 Route::get('auth/verify', [AuthController::class, 'verifyAuth']);
+Route::post('logout', [AuthController::class, 'logout']);
+
 
 Route::post('register/customer', [RegistrationController::class, 'registerCustomer']);
 Route::post('register/seller', [RegistrationController::class, 'registerSeller']);
@@ -47,7 +49,7 @@ Route::post('register/renter', [RegistrationController::class, 'registerRenter']
 Route::post('register/admin', [RegistrationController::class, 'registerAdmin']);
 Route::post('register', [RegistrationController::class, 'registerCustomer']);
 
-Route::middleware('custom.auth')->group(function () {
+Route::middleware('auth:sanctum')->group(function () {
     Route::get('me/admin', [AuthController::class, 'getMe']);
 
     Route::post('users/verify_email', [VerificationController::class, 'verify']);
