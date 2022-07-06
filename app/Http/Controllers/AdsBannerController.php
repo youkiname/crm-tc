@@ -31,6 +31,7 @@ class AdsBannerController extends Controller
             'max_age' => $request->min_age ?? 1000,
             'min_balance' => $request->min_balance ?? 0,
             'max_balance' => $request->max_balance ?? 2147483647,
+            'comment' => $request->comment ?? ''
         ]);
         return new AdsBannerResource($banner);
     }
@@ -51,6 +52,7 @@ class AdsBannerController extends Controller
         $banner->max_age = $request->max_age ?? $banner->max_age;
         $banner->min_balance = $request->min_balance ?? $banner->min_balance;
         $banner->max_balance = $request->max_balance ?? $banner->max_balance;
+        $banner->comment = $request->comment ?? $banner->comment;
         $banner->is_active = $request->is_active ?? $banner->is_active;
 
         if ($request->file('image')) {
