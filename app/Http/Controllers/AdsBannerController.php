@@ -24,11 +24,12 @@ class AdsBannerController extends Controller
         $banner = AdsBanner::create([
             'name' => $request->name,
             'shop_id' => $request->shop_id,
+            'gender' => $request->gender,
             'image_link' => $this->storeImage($request->file('image'), 'static/banners'),
             'start_date' => $request->start_date ?? date("Y-m-d"),
             'end_date' => $request->end_date,
             'min_age' => $request->min_age ?? 0,
-            'max_age' => $request->min_age ?? 1000,
+            'max_age' => $request->max_age ?? 1000,
             'min_balance' => $request->min_balance ?? 0,
             'max_balance' => $request->max_balance ?? 2147483647,
             'comment' => $request->comment ?? ''

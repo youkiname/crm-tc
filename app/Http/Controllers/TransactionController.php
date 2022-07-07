@@ -26,6 +26,13 @@ class TransactionController extends Controller
         return new TransactionsResource($collection);
     }
 
+    public function getSalesRate(Request $request) {
+        return response()->json([
+            'month_rate' => round($this->getRateByDays($request, 30), 2),
+            'year_rate' => round($this->getRateByDays($request, 365), 2),
+        ]);
+    }
+
     public function getAmountSum(Request $request) {
         $collection = Transaction::where('amount', '>', 0);
         $collection = $this->applyFilter($collection, $request);
@@ -138,5 +145,28 @@ class TransactionController extends Controller
             $collection = $collection->where('created_at', "<=", $endDate);
         }
         return $collection;
+    }
+
+    /*
+    * Получить соотношение продаж за определённое кол-во дней
+    */
+    private function getRateByDays(Request $request, $days) {
+        $lastSum = Transaction::where('created_at', '>=', Carbon::now()->subDays($days));
+        $lastSum = $this->applyFilter($lastSum, $request);
+        $lastSum = $lastSum->sum('amount');
+        $prevSum = Transaction::where('created_at', '>=', Carbon::now()->subDays($days*2))
+        ->where('created_at', '<', Carbon::now()->subDays($days));
+        $prevSum = $this->applyFilter($prevSum, $request);
+        $prevSum = $prevSum->sum('amount');
+        if ($prevSum == 0) {
+            return 0;
+        }
+        // Если соотношение > 1, то продажи возросли, поэтому % положительный
+        $rate = $lastSum / $prevSum;
+        if ($lastSum / $prevSum >= 1) {
+            return $rate - 1;
+        }
+        // Если соотношение < 1, то продажи упали, поэтому % отрицательный
+        return -$rate;
     }
 }

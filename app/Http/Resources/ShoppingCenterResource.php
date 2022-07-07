@@ -10,12 +10,12 @@ class ShoppingCenterResource extends JsonResource
 
     public function toArray($request)
     {
-        return [
+        $data = [
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
             'address' => $this->address,
-            'city' => $this->city ? $this->city->name : null,
+            'city' => null,
             'coordinates' => [
                 'lat' => $this->latitude(),
                 'long' => $this->longitude(),
@@ -23,5 +23,12 @@ class ShoppingCenterResource extends JsonResource
             'avatar_link' => $this->avatar_link ?? 'https://picsum.photos/500/500',
             'shops' => new ShopsResource($this->shops)
         ];
+        if ($this->city) {
+            $data['city'] = [
+                'id' => $this->city->id,
+                'name' => $this->city->name,
+            ];
+        }
+        return $data;
     }
 }

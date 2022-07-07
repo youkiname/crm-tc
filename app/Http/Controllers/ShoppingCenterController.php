@@ -20,11 +20,6 @@ class ShoppingCenterController extends Controller
         return new ShoppingCentersResource($collection);
     }
 
-    public function create()
-    {
-        //
-    }
-
     public function store(CreateShoppingCenterRequest $request)
     {
         $center = ShoppingCenter::create([

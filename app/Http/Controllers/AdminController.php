@@ -22,8 +22,9 @@ class AdminController extends Controller
 
         $shoppingCenter = $admin->shoppingCenter();
         $shoppingCenter->name = $request->shopping_center_name ?? $shoppingCenter->name;
-        $shoppingCenter->description = $request->shopping_center_description ?? $shoppingCenter->description;
+        $shoppingCenter->description = $request->description ?? $shoppingCenter->description;
         $shoppingCenter->address = $request->address ?? $shoppingCenter->address;
+        $shoppingCenter->city_id = $request->city_id ?? $shoppingCenter->city_id;
         $shoppingCenter->save();
         return new UserResource($admin);
     }
