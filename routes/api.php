@@ -57,7 +57,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('users/verify_password_reset', [ResetPasswordController::class, 'verifyPasswordReset']);
     Route::post('users/update_password', [ResetPasswordController::class, 'updatePassword']);
 
-    Route::post('admins/update_profile', [AdminController::class, 'updateProfile']);
+    Route::put('admins/update_profile', [AdminController::class, 'updateProfile']);
     Route::post('users/update_profile', [UserController::class, 'updateProfile']);
 
     Route::post('users/update_bonuses', [CardController::class, 'updateBonuses']);

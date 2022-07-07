@@ -23,7 +23,8 @@ class CardStatusController extends Controller
         $status = CardStatus::create([
             'name' => $request->name,
             'cashback' => $request->cashback,
-            'threshold' => $request->threshold
+            'threshold' => $request->threshold,
+            'description' => $request->description,
         ]);
         return new CardStatusResource($status);
     }
@@ -44,6 +45,9 @@ class CardStatusController extends Controller
         }
         if ($request->threshold) {
             $cardStatus->threshold = $request->threshold;
+        }
+        if ($request->description) {
+            $cardStatus->description = $request->description;
         }
         $cardStatus->save();
         return new CardStatusResource($cardStatus);

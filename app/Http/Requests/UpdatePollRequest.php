@@ -14,7 +14,6 @@ class UpdatePollRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required|integer|exists:polls,id',
             'title' => 'string',
             'description' => 'string',
             'choices' => 'array|min:2',

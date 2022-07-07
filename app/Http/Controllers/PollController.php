@@ -92,7 +92,7 @@ class PollController extends Controller
         $poll->save();
 
         if ($request->choices) {
-            $poll->choices->delete();
+            PollChoice::where('poll_id', $poll->id)->delete();
             $this->createChoices($poll->id, $request->choices);
         }
 

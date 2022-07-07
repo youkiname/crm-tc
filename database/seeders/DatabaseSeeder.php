@@ -31,26 +31,31 @@ class DatabaseSeeder extends Seeder
             'name' => 'Bronze',
             'cashback' => 10,
             'threshold' => 0,
+            'description' => ''
         ]);
         CardStatus::create([
             'name' => 'Silver',
             'cashback' => 15,
             'threshold' => 100,
+            'description' => ''
         ]);
         CardStatus::create([
             'name' => 'Gold',
             'cashback' => 20,
             'threshold' => 1000,
+            'description' => ''
         ]);
         CardStatus::create([
             'name' => 'Platinum',
             'cashback' => 25,
             'threshold' => 3000,
+            'description' => ''
         ]);
         CardStatus::create([
             'name' => 'VIP',
             'cashback' => 30,
             'threshold' => 5000,
+            'description' => ''
         ]);
 
         ShopCategory::create([

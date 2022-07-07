@@ -83,6 +83,9 @@ class User extends Authenticatable
     public function jobShop()
     {
         $bundle = SellerShopBundle::where('seller_id', $this->id)->first();
+        if (!$bundle) {
+            return null;
+        }
         return Shop::find($bundle->shop_id);
     }
 
@@ -92,6 +95,9 @@ class User extends Authenticatable
     public function shoppingCenter()
     {
         $bundle = AdminShoppingCenterBundle::where('admin_id', $this->id)->first();
+        if (!$bundle) {
+            return null;
+        }
         return ShoppingCenter::find($bundle->shopping_center_id);
     }
 
