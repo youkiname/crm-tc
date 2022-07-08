@@ -152,7 +152,7 @@ class StatisticController extends Controller
         })
         ->groupBy('gender')
         ->get();
-        $result = [];
+        $result = ['male' => 0, 'female' => 0];
         foreach ($visitorGenders as $gender) {
             $result[$gender->gender] = round($gender->amount / $all, 2);
         }

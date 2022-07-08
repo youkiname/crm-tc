@@ -12,7 +12,7 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
         $this->withHeaders([
-            'Authorization' => $this->getAuthToken(),
+            'Authorization' => 'Bearer ' . $this->getAuthToken(),
             'Accept' => 'application/json'
         ]);
     }
