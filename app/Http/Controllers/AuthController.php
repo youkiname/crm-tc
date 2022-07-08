@@ -55,20 +55,30 @@ class AuthController extends Controller
 
     public function logout() {
         Auth::logout();
+        return response()->json([
+            'success' => true,
+        ]);
+    }
+
+    public function refresh()
+    {
+        $user = Auth::user();
+        $token = Auth::refresh();
+        return AuthenticatedUserResource::make($user)->addToken($token);
     }
 
     private function auth(AuthRequest $request, $roleId)
     {
-        $user = User::where('email', $request->email)
-        ->where('role_id', $roleId)
-        ->first();
-        // if (Auth::attempt($request->only('email', 'password'))) {
-        //     return new AuthenticatedUserResource(Auth::user());
-        // }
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            $this->jsonAbort('Wrong email or password', 401);
+        $credentials = $request->only('email', 'password');
+        $token = Auth::attempt($credentials);
+        if (!$token) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Unauthorized',
+            ], 401);
         }
-        return $this->getAuthenticatedUserData($user);
+        $user = Auth::user();
+        return AuthenticatedUserResource::make($user)->addToken($token);
     }
 
     private function twoFactorAuth(AuthRequest $request, $roleId)
@@ -83,11 +93,6 @@ class AuthController extends Controller
         return response()->json([
             'success' => true,
         ]);
-    }
-
-    private function getAuthenticatedUserData($user) {
-        $token = $user->createToken('api_token')->plainTextToken;
-        return AuthenticatedUserResource::make($user)->addToken($token);
     }
 
     private function sendAuthVerificationCode($user) {

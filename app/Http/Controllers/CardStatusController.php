@@ -24,7 +24,7 @@ class CardStatusController extends Controller
             'name' => $request->name,
             'cashback' => $request->cashback,
             'threshold' => $request->threshold,
-            'description' => $request->description,
+            'description' => $request->description ?? '',
         ]);
         return new CardStatusResource($status);
     }
