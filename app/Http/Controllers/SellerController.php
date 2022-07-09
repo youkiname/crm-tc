@@ -17,7 +17,6 @@ use App\Models\SellerShopBundle;
 
 class SellerController extends Controller
 {
-    $roleId = null;
 
     public function __construct() {
         $this->roleId = Role::where('name', 'seller')->first()->id;
@@ -32,7 +31,7 @@ class SellerController extends Controller
     public function store(RegistrationRequest $request)
     {
         $renter = $request->user();
-        $shopId = $renter->shop()->id;
+        $shopId = $renter->shop->id;
         $seller = User::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
@@ -64,13 +63,13 @@ class SellerController extends Controller
         $seller = User::where('role_id', $this->roleId)->where('id', $id)->first();
         $seller->first_name = $request->first_name ?? $seller->first_name;
         $seller->last_name = $request->last_name ?? $seller->last_name;
-        $seller->phone = $request->phone ?? $seller->phone;
+        $seller->phone = $request->mobile ?? $seller->phone;
         $seller->birth_date = $request->birth_date ?? $seller->birth_date;
         $seller->email = $request->email ?? $seller->email;
         $seller->email = $request->email ?? $seller->email;
         $seller->gender = $request->gender ?? $seller->gender;
         if ($request->password) {
-            $seller->password = Hash::make($request->password)
+            $seller->password = Hash::make($request->password);
         }
         $seller->save();
         return new SellerResource($seller);
