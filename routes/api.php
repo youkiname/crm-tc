@@ -85,6 +85,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('statistic/shops', [StatisticController::class, 'getShopStatistics']);
     Route::get('statistic/customers', [StatisticController::class, 'getCustomerStatistics']);
+    Route::get('statistic/sellers', [StatisticController::class, 'getSellerStatistics']);
 
     Route::get('statistic/transactions/sum', [TransactionController::class, 'getAmountSum']);
     Route::get('statistic/transactions/sum/today', [TransactionController::class, 'getAmountSumToday']);

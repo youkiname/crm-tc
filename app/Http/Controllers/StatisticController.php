@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Resources\ShopStatisticsResource;
 use App\Http\Resources\CustomerStatisticsResource;
+use App\Http\Resources\SellerStatisticsResource;
 use App\Http\Resources\GraphListResource;
 
 use App\Models\Shop;
@@ -56,6 +57,21 @@ class StatisticController extends Controller
         });
         $customers = $this->tryAddPaginationAndLimit($customers, $request);
         return new CustomerStatisticsResource($customers);
+    }
+
+    public function getSellerStatistics(Request $request) {
+        $shop = $request->user()->shop;
+
+        $seller_role_id = Role::where('name', 'seller')->first()->id;
+        $sellers = User::where('role_id', $seller_role_id)
+        ->when($request->q, function ($query, $searchQuery) {
+            $query->where('first_name', 'LIKE', '%' . $searchQuery . '%');
+        })
+        ->whereRaw("exists (select seller_shop_bundles.id from seller_shop_bundles
+        where seller_shop_bundles.seller_id = users.id AND seller_shop_bundles.shop_id = ?)
+        ", [$shop->id]);
+        $sellers = $this->tryAddPaginationAndLimit($sellers, $request);
+        return new SellerStatisticsResource($customers);
     }
 
     public function getVisitorsAmountToday()

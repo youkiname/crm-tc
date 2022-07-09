@@ -19,8 +19,8 @@ class Card {
     readonly int $bonusesAmount;
 
     public function __construct(string $number,
-                                int $shoppingCenterId, 
-                                string $status, 
+                                int $shoppingCenterId,
+                                string $status,
                                 mixed $nextStatus,
                                 int $toNextStatus,
                                 int $bonusesAmount) {
@@ -99,7 +99,7 @@ class User extends Authenticatable implements JWTSubject
 
     /**
      * магазин, в котором работает пользователь с ролью seller(продавец)
-     */ 
+     */
     public function jobShop()
     {
         $bundle = SellerShopBundle::where('seller_id', $this->id)->first();
@@ -110,8 +110,16 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
+     * магазин, которым руководит пользователь с ролью renter(арендатор)
+     */
+    public function shop()
+    {
+        return $this->hasOne(Shop::class, 'renter_id', 'id');
+    }
+
+    /**
      * Тц, к которому имеет доступ админ с ролью admin
-     */ 
+     */
     public function shoppingCenter()
     {
         $bundle = AdminShoppingCenterBundle::where('admin_id', $this->id)->first();
