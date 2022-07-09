@@ -70,7 +70,10 @@ class AuthController extends Controller
     private function auth(AuthRequest $request, $roleId)
     {
         $credentials = $request->only('email', 'password');
-        $token = Auth::attempt($credentials);
+
+        $hoursTTL48 = 60 * 48;
+        // set the token to expire after 48 hours
+        $token = Auth::setTTL($hoursTTL48)->attempt($credentials);
         if (!$token) {
             return response()->json([
                 'status' => 'error',

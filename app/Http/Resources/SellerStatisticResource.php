@@ -33,9 +33,10 @@ class SellerStatisticResource extends JsonResource
     }
 
     private function getIncomeAmount($fromDate) {
-        return Transaction::where('created_at', '>=', $fromDate)
+        $amount = Transaction::where('created_at', '>=', $fromDate)
         ->where('shop_id', $this->jobShop()->id)
         ->where('seller_id', $this->id)
         ->sum('amount');
+        return intval($amount);
     }
 }
