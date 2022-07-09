@@ -142,7 +142,22 @@ class User extends Authenticatable implements JWTSubject
 
     public function isSeller()
     {
-        return $this->role_id == 2;
+        return $this->role->name == 'seller';
+    }
+
+    public function isCustomer()
+    {
+        return $this->role->name == 'customer';
+    }
+
+    public function isRenter()
+    {
+        return $this->role->name == 'renter';
+    }
+
+    public function isAdmin()
+    {
+        return $this->role->name == 'admin';
     }
 
     public function account($shoppingCenterId = 1) {
