@@ -71,7 +71,7 @@ class StatisticController extends Controller
         where seller_shop_bundles.seller_id = users.id AND seller_shop_bundles.shop_id = ?)
         ", [$shop->id]);
         $sellers = $this->tryAddPaginationAndLimit($sellers, $request);
-        return new SellerStatisticsResource($customers);
+        return new SellerStatisticsResource($sellers);
     }
 
     public function getVisitorsAmountToday()

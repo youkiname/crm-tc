@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\SellerController;
+use App\Http\Controllers\RenterController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RegistrationController;
@@ -72,6 +74,8 @@ Route::middleware('auth:api')->group(function () {
     Route::resource('shops', ShopController::class);
     Route::resource('messages', MessageController::class);
     Route::resource('transactions', TransactionController::class);
+    Route::resource('sellers', SellerController::class);
+    Route::resource('renters', RenterController::class);
 
     Route::put('banners/activate/{id}', [AdsBannerController::class, 'activateBanner']);
     Route::put('banners/deactivate/{id}', [AdsBannerController::class, 'deactivateBanner']);

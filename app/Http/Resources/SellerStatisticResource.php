@@ -3,9 +3,14 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Carbon\Carbon;
+
+use App\Models\Transaction;
 
 class SellerStatisticResource extends JsonResource
 {
+    public static $wrap = null;
+
     public function toArray($request)
     {
         return [

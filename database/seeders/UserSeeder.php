@@ -13,11 +13,15 @@ class UserSeeder extends Seeder
 {
     public function run()
     {
-        User::factory()->count(50)->create();
         $customerRoleId = Role::where('name', 'customer')->first()->id;
         $sellerRoleId = Role::where('name', 'seller')->first()->id;
         $renterRoleId = Role::where('name', 'renter')->first()->id;
         $adminRoleId = Role::where('name', 'admin')->first()->id;
+
+        User::factory()->count(50)->create();
+        User::factory()->state([
+            'role_id' => $sellerRoleId,
+        ])->count(200)->create();
 
         User::create([
             'first_name' => "Customer",

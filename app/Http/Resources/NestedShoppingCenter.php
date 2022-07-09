@@ -4,13 +4,13 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-use App\Models\Poll;
+use App\Models\Poll;    
 use App\Models\PollVote;
 
 class NestedShoppingCenter extends JsonResource
 {
     public static $wrap = null;
-    
+
     public function toArray($request)
     {
         $data = [
