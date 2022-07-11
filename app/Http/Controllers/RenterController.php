@@ -16,7 +16,7 @@ use App\Models\Role;
 
 class RenterController extends Controller
 {
-    $roleId = null;
+    private int $roleId;
 
     public function __construct() {
         $this->roleId = Role::where('name', 'renter')->first()->id;
@@ -46,7 +46,7 @@ class RenterController extends Controller
         $renter->email = $request->email ?? $renter->email;
         $renter->gender = $request->gender ?? $renter->gender;
         if ($request->password) {
-            $renter->password = Hash::make($request->password)
+            $renter->password = Hash::make($request->password);
         }
         $renter->save();
         return new UserResource($renter);

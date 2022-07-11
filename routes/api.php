@@ -53,7 +53,7 @@ Route::post('register/admin', [RegistrationController::class, 'registerAdmin']);
 Route::post('register', [RegistrationController::class, 'registerCustomer']);
 
 Route::middleware('auth:api')->group(function () {
-    Route::get('me/admin', [AuthController::class, 'getMe']);
+    Route::get('get_me', [AuthController::class, 'getMe']);
 
     Route::post('users/verify_email', [VerificationController::class, 'verify']);
     Route::post('users/reset_password', [ResetPasswordController::class, 'resetPassword']);
