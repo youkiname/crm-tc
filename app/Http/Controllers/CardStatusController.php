@@ -37,13 +37,15 @@ class CardStatusController extends Controller
 
     public function update(UpdateCardStatusRequest $request, CardStatus $cardStatus)
     {
+        $bronzeCardStatusId = 1;
         if ($request->name) {
             $cardStatus->name = $request->name;
         }
         if ($request->cashback) {
             $cardStatus->cashback = $request->cashback;
         }
-        if ($request->threshold) {
+        if ($request->threshold && $cardStatus->id != $bronzeCardStatusId) {
+            // Нельзя изменять порог входа в бронзовый статус
             $cardStatus->threshold = $request->threshold;
         }
         if ($request->description) {

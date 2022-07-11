@@ -26,13 +26,7 @@ class DatabaseSeeder extends Seeder
         Role::create([
             'name' => 'admin'
         ]);
-
-        CardStatus::create([
-            'name' => 'Undefined',
-            'cashback' => 0,
-            'threshold' => 0,
-            'description' => 'Your card status is undefined.'
-        ]);
+    
         CardStatus::create([
             'name' => 'Bronze',
             'cashback' => 10,
