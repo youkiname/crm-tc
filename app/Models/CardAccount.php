@@ -29,6 +29,9 @@ class CardAccount extends Model
     {
         $status = CardStatus::where('threshold', '<=', $this->bonuses_amount)
         ->orderBy('threshold', 'desc')->first();
+        if (!$status) {
+            return CardStatus::where('name', 'Undefined')->first();
+        }
         return $status;
     }
 
