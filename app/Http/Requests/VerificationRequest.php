@@ -13,7 +13,7 @@ class VerificationRequest extends ApiFormRequest
     {
         return [
             'email' => 'required|email|exists:users,email',
-            'code' => 'required|integer'
+            'code' => 'required'
         ];
     }
 }
