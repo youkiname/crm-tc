@@ -14,7 +14,7 @@ class AdsBannerResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'link' => "https://top-sistem.ru",
-            'image_link' => env('APP_URL') . $this->image_link,
+            'image_link' => env('API_URL') . $this->image_link,
             'comment' => $this->comment,
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
