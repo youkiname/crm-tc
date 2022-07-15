@@ -22,6 +22,7 @@ class AdsBannerSeeder extends Seeder
                 'max_age' => 99,
                 'min_balance' => 0,
                 'max_balance' => 9999,
+                'comment' => ''
             ]);
         }
     }

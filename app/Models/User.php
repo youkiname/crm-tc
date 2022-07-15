@@ -6,7 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 
 use Carbon\Carbon;
 
@@ -19,8 +19,8 @@ class Card {
     readonly int $bonusesAmount;
 
     public function __construct(string $number,
-                                int $shoppingCenterId, 
-                                string $status, 
+                                int $shoppingCenterId,
+                                string $status,
                                 mixed $nextStatus,
                                 int $toNextStatus,
                                 int $bonusesAmount) {
@@ -33,9 +33,9 @@ class Card {
     }
 }
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -73,17 +73,60 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * Get the identifier that will be stored in the subject claim of the JWT.
+     *
+     * @return mixed
+     */
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
+
     public function isEmailVerified() {
         return (bool) $this->email_verified_at;
     }
 
     /**
      * магазин, в котором работает пользователь с ролью seller(продавец)
-     */ 
+     */
     public function jobShop()
     {
         $bundle = SellerShopBundle::where('seller_id', $this->id)->first();
+        if (!$bundle) {
+            return null;
+        }
         return Shop::find($bundle->shop_id);
+    }
+
+    /**
+     * магазин, которым руководит пользователь с ролью renter(арендатор)
+     */
+    public function shop()
+    {
+        return $this->hasOne(Shop::class, 'renter_id', 'id');
+    }
+
+    /**
+     * Тц, к которому имеет доступ админ с ролью admin
+     */
+    public function shoppingCenter()
+    {
+        $bundle = AdminShoppingCenterBundle::where('admin_id', $this->id)->first();
+        if (!$bundle) {
+            return null;
+        }
+        return ShoppingCenter::find($bundle->shopping_center_id);
     }
 
     public function role()
@@ -99,7 +142,22 @@ class User extends Authenticatable
 
     public function isSeller()
     {
-        return $this->role_id == 2;
+        return $this->role->name == 'seller';
+    }
+
+    public function isCustomer()
+    {
+        return $this->role->name == 'customer';
+    }
+
+    public function isRenter()
+    {
+        return $this->role->name == 'renter';
+    }
+
+    public function isAdmin()
+    {
+        return $this->role->name == 'admin';
     }
 
     public function account($shoppingCenterId = 1) {

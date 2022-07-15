@@ -14,6 +14,7 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
+            'full_name' => $this->fullName(),
             'email' => $this->email,
             'mobile' => $this->phone,
             'card' => new CardResource($this->card($request->shopping_center_id)),
@@ -25,6 +26,8 @@ class UserResource extends JsonResource
             'age' => $this->age(),
             'is_email_verified' => $this->isEmailVerified(),
             'avatar_link' => 'https://picsum.photos/500/500',
+            'shop' => $this->whenNotNull($this->jobShop()),
+            'shopping_center' => new ShoppingCenterResource($this->shoppingCenter()),
         ];
     }
 }

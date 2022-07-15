@@ -6,7 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class AuthenticatedUserResource extends UserResource
 {
-    private string $token;
+    private string $token='null';
 
     public function addToken($token) {
         $this->token = $token;

@@ -48,8 +48,8 @@ class Controller extends BaseController
         return $collection->get();
     }
 
-    private function storeImage($requestFile, $directory) {
-        $file = $request->file('image');
+    protected function storeImage($requestFile, $directory) {
+        $file = $requestFile;
         $filename = date('YmdHi').$file->getClientOriginalName();
         $file->move(public_path($directory), $filename);
         $result = '/' . $directory . '/' . $filename;

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -29,7 +30,7 @@ class UserFactory extends Factory
             'email' => $this->faker->unique()->safeEmail(),
             'card_number' => $this->faker->creditCardNumber(),
             'email_verified_at' => now(),
-            'password' => '123123123',
+            'password' => Hash::make('123123123'),
             'remember_token' => Str::random(10),
         ];
         if ($userData['role_id'] == 2) {

@@ -26,6 +26,7 @@ class CardStatusTest extends TestCase
     {
         $response = $this->post('/api/card_statuses', [
             'name' => 'test',
+            'cashback' => 13,
             'threshold' => '99999'
         ]);
         $response->assertStatus(201);
@@ -35,6 +36,7 @@ class CardStatusTest extends TestCase
     {
         $response = $this->put('/api/card_statuses/' . CardStatus::orderBy('id', 'desc')->first()->id, [
             'name' => 'test2',
+            'cashback' => 13,
             'threshold' => '88888',
         ]);
         $response->assertStatus(200);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\VerifyResetPasswordRequest;
@@ -44,7 +45,7 @@ class ResetPasswordController extends Controller
         }
 
         $user = User::where('email', $request->email)->first();
-        $user->password = $request->new_password;
+        $user->password = Hash::make($request->new_password);
         $user->save();
         ResetPasswordCode::where('email', $request->email)->delete();
         

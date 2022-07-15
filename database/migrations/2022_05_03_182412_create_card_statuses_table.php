@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string("name");
             $table->integer("cashback");
             $table->integer("threshold");
+            $table->string("description");
             $table->timestamps();
         });
     }

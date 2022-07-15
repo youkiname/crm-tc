@@ -14,7 +14,7 @@ class UpdateCardStatusRequest extends ApiFormRequest
         return [
             'name' => 'string',
             'cashback' => 'integer|min:0',
-            'threshold' => 'integer|min:0'
+            'threshold' => 'integer|min:0',
         ];
     }
 }

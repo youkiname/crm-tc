@@ -21,6 +21,7 @@ class AdsBanner extends Model
         'max_age',
         'min_balance',
         'max_balance',
+        'comment'
     ];
 
     public function shop()

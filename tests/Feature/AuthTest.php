@@ -35,7 +35,7 @@ class AuthTest extends TestCase
     {
         $roleId = Role::where('name', $roleName)->first()->id;
         $user = User::where('role_id', $roleId)->inRandomOrder()->first();
-        $params = '?email=' . $user->email . '&password=' . $user->password;
+        $params = '?email=' . $user->email . '&password=123123123';
         $route = '/api/auth/' . $roleName;
         $response = $this->getJson($route . $params);
         $response->assertStatus(200);

@@ -13,6 +13,7 @@ return new class extends Migration
             $table->string('name');
             $table->foreignId('shop_id')->references('id')->on('shops')->onDelete('cascade');
             $table->string('image_link');
+            $table->string('comment');
             $table->Date('start_date');
             $table->Date('end_date')->nullable();
             $table->boolean('is_active')->default(1);

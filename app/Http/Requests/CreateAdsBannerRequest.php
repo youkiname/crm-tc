@@ -21,6 +21,7 @@ class CreateAdsBannerRequest extends ApiFormRequest
             'max_age' => 'integer',
             'min_balance' => 'integer',
             'max_balance' => 'integer',
+            'gender' => 'in:male,female'
         ];
     }
 }

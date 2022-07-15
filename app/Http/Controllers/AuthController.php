@@ -2,13 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\AuthRequest;
+use App\Mail\AuthVerification;
 
 use App\Http\Resources\AuthenticatedUserResource;
+use App\Http\Resources\UserResource;
 
 use App\Models\User;
 use App\Models\Role;
+use App\Models\AuthVerificationCode;
+
+use Carbon\Carbon;
 
 class AuthController extends Controller
 {
@@ -32,16 +39,72 @@ class AuthController extends Controller
         return $this->auth($request, $roleId);
     }
 
+    public function verifyAuth(VerifyAuthRequest $request) {
+        $verification = AuthVerificationCode::where('email', $request->email)
+        ->where('code', $request->code)->first();
+        if (!$verification) {
+            $this->jsonAbort('Wrong code', 404);
+        }
+        $verification->delete();
+        return $this->getAuthenticatedUserData($verification->user);
+    }
+
+    public function getMe(Request $request) {
+        return new UserResource($request->user());
+    }
+
+    public function logout() {
+        Auth::logout();
+        return response()->json([
+            'success' => true,
+        ]);
+    }
+
+    public function refresh()
+    {
+        $user = Auth::user();
+        $token = Auth::refresh();
+        return AuthenticatedUserResource::make($user)->addToken($token);
+    }
+
     private function auth(AuthRequest $request, $roleId)
     {
+        $credentials = $request->only('email', 'password');
+
+        $hoursTTL48 = 60 * 48;
+        // set the token to expire after 48 hours
+        $token = Auth::setTTL($hoursTTL48)->attempt($credentials);
+        if (!$token) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Unauthorized',
+            ], 401);
+        }
+        $user = Auth::user();
+        return AuthenticatedUserResource::make($user)->addToken($token);
+    }
+
+    private function twoFactorAuth(AuthRequest $request, $roleId)
+    {
         $user = User::where('email', $request->email)
-        ->where('password', $request->password)
         ->where('role_id', $roleId)
         ->first();
-        if (!$user) {
+        if (!$user || !Hash::check($request->password, $user->password)) {
             $this->jsonAbort('Wrong email or password', 401);
         }
-        $token = $user->createToken('api_token')->plainTextToken;
-        return AuthenticatedUserResource::make($user)->addToken($token);
+        $this->sendAuthVerificationCode($user);
+        return response()->json([
+            'success' => true,
+        ]);
+    }
+
+    private function sendAuthVerificationCode($user) {
+        $code = $this->generateCode(5);
+        AuthVerificationCode::create([
+            'email' => $user->email,
+            'code' => $code,
+            'expires_at' => Carbon::tomorrow(),
+        ]);
+        Mail::to($user->email)->send(new AuthVerification($code));
     }
 }

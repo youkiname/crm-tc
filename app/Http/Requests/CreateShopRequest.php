@@ -12,7 +12,6 @@ class CreateShopRequest extends ApiFormRequest
     public function rules()
     {
         return [
-            'shopping_center_id' => 'required|integer|exists:shopping_centers,id',
             'avatar' => 'image',
             'name' => 'required',
             'cashback' => 'integer',

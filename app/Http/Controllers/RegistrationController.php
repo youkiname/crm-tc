@@ -49,7 +49,7 @@ class RegistrationController extends Controller
             'gender' => $request->gender,
             'phone' => $request->mobile,
             'birth_date' => $request->birth_date,
-            'password' => $request->password,
+            'password' => Hash::make($request->password),
             'role_id' => $roleId,
         ]);
 

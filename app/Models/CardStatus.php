@@ -13,5 +13,6 @@ class CardStatus extends Model
         'name',
         'cashback',
         'threshold',
+        'description',
     ];
 }
