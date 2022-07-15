@@ -52,13 +52,14 @@ Route::post('register/renter', [RegistrationController::class, 'registerRenter']
 Route::post('register/admin', [RegistrationController::class, 'registerAdmin']);
 Route::post('register', [RegistrationController::class, 'registerCustomer']);
 
+Route::post('users/reset_password', [ResetPasswordController::class, 'resetPassword']);
+Route::get('users/verify_password_reset', [ResetPasswordController::class, 'verifyPasswordReset']);
+Route::post('users/update_password', [ResetPasswordController::class, 'updatePassword']);
+
 Route::middleware('auth:api')->group(function () {
     Route::get('get_me', [AuthController::class, 'getMe']);
-
+    
     Route::post('users/verify_email', [VerificationController::class, 'verify']);
-    Route::post('users/reset_password', [ResetPasswordController::class, 'resetPassword']);
-    Route::get('users/verify_password_reset', [ResetPasswordController::class, 'verifyPasswordReset']);
-    Route::post('users/update_password', [ResetPasswordController::class, 'updatePassword']);
 
     Route::put('admins/update_profile', [AdminController::class, 'updateProfile']);
     Route::post('users/update_profile', [UserController::class, 'updateProfile']);
