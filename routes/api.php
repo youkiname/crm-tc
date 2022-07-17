@@ -16,7 +16,6 @@ use App\Http\Controllers\CardController;
 use App\Http\Controllers\CardStatusController;
 use App\Http\Controllers\ShoppingCenterController;
 use App\Http\Controllers\ShopController;
-use App\Http\Controllers\MessageController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\AdsBannerController;
 use App\Http\Controllers\PollController;
@@ -73,7 +72,6 @@ Route::middleware('auth:api')->group(function () {
     Route::resource('shopping_centers', ShoppingCenterController::class);
     Route::get('shops/categories', [ShopController::class, 'getCategories']);
     Route::resource('shops', ShopController::class);
-    Route::resource('messages', MessageController::class);
     Route::resource('transactions', TransactionController::class);
     Route::resource('sellers', SellerController::class);
     Route::resource('renters', RenterController::class);
