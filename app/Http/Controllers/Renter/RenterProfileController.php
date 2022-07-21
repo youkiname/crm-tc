@@ -19,6 +19,6 @@ class RenterProfileController extends ProfileController
         $shop->category_id = $request->category_id ?? $shop->category_id;
         $shop->legal_form = $request->legal_form ?? $shop->legal_form;
         $shop->save();
-        return new UserResource($admin);
+        return new UserResource($renter);
     }
 }
