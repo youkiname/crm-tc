@@ -39,36 +39,36 @@ class RenterStatisticController extends StatisticController
     public function getVisitorsGraph(Request $request) {
         $shop = $request->user()->shop;
         $shoppingCenterId = $shop->shoppingCenter->id;
-        return $this->getVisitorsGraphData($request->start_date, $request->end_date, $shoppingCenterId);
+        return $this->_getVisitorsGraphData($request->start_date, $request->end_date, $shoppingCenterId);
     }
 
     public function getVisitorsGraphMonth(Request $request) {
         $shop = $request->user()->shop;
         $shoppingCenterId = $shop->shoppingCenter->id;
-        return $this->getVisitorsGraphData(Carbon::now()->subDays(30), null, $shoppingCenterId);
+        return $this->_getVisitorsGraphData(Carbon::now()->subDays(30), null, $shoppingCenterId);
     }
 
     public function getVisitorsAgePlot(Request $request) {
         $shop = $request->user()->shop;
         $shoppingCenterId = $shop->shoppingCenter->id;
-        return $this->getVisitorsAgePlotData(null, $shoppingCenterId);
+        return $this->_getVisitorsAgePlotData(null, $shoppingCenterId);
     }
 
     public function getVisitorsAgePlotWeek(Request $request) {
         $shop = $request->user()->shop;
         $shoppingCenterId = $shop->shoppingCenter->id;
-        return $this->getVisitorsAgePlotData(Carbon::now()->subDays(7), $shoppingCenterId);
+        return $this->_getVisitorsAgePlotData(Carbon::now()->subDays(7), $shoppingCenterId);
     }
 
     public function getVisitorsAgePlotMonth(Request $request) {
         $shop = $request->user()->shop;
         $shoppingCenterId = $shop->shoppingCenter->id;
-        return $this->getVisitorsAgePlotData(Carbon::now()->subDays(30), $shoppingCenterId);
+        return $this->_getVisitorsAgePlotData(Carbon::now()->subDays(30), $shoppingCenterId);
     }
 
     public function getVisitorsAgePlotYear(Request $request) {
         $shop = $request->user()->shop;
         $shoppingCenterId = $shop->shoppingCenter->id;
-        return $this->getVisitorsAgePlotData(Carbon::now()->subDays(365), $shoppingCenterId);
+        return $this->_getVisitorsAgePlotData(Carbon::now()->subDays(365), $shoppingCenterId);
     }
 }
