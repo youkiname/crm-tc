@@ -16,6 +16,7 @@ use App\Models\Role;
 use App\Models\CardAccount;
 use App\Models\ShoppingCenter;
 use App\Models\VerificationCode;
+use App\Models\SellerShopBundle;
 
 use Carbon\Carbon;
 
@@ -31,6 +32,10 @@ class RegistrationController extends Controller
         $user = $this->register($request, 'seller');
         $user->cashback = random_int(5, 30);
         $user->save();
+        SellerShopBundle::create([
+            'seller_id' => $user->id,
+            'shop_id' => $request->user()->shop->id,
+        ]);
         return new UserResource($user);
     }
 
