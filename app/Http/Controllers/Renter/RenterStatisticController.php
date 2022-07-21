@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Abstract\StatisticController;
 use Illuminate\Http\Request;
 
+use Carbon\Carbon;
+
 class RenterStatisticController extends StatisticController
 {
     public function getCustomerStatistics(Request $request) {
