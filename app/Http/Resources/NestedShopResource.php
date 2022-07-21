@@ -13,6 +13,7 @@ class NestedShopResource extends JsonResource
             'name' => $this->name,
             'cashback' => $this->cashback,
             'category' => new ShopCategoryResource($this->category),
+            'legal_form' => $this->legal_form
         ];
     }
 }

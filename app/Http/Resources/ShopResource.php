@@ -20,7 +20,8 @@ class ShopResource extends JsonResource
             'cashback' => $this->cashback,
             'category' => new ShopCategoryResource($this->category),
             'avatar_link' => $avatarLink,
-            'renter' => new RenterResource($this->renter)
+            'renter' => new RenterResource($this->renter),
+            'legal_form' => $this->legal_form
         ];
     }
 }
