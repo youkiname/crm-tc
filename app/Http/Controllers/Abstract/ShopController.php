@@ -42,6 +42,7 @@ class ShopController extends Controller
             'cashback' => $request->cashback ?? 0,
             'shopping_center_id' => $request->user()->shoppingCenter()->id,
             'category_id' => $request->category_id,
+            'legal_form' => $request->legal_form ?? '',
         ]);
 
         return new ShopResource($shop);

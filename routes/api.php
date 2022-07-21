@@ -77,6 +77,7 @@ Route::middleware('auth:api')->group(function () {
         Route::get('statistic/visitors/age_plot/month', [App\Http\Controllers\Renter\RenterStatisticController::class, 'getVisitorsAgePlotMonth']);
         Route::get('statistic/visitors/age_plot/year', [App\Http\Controllers\Renter\RenterStatisticController::class, 'getVisitorsAgePlotYear']);
         Route::post('register_seller', [RegistrationController::class, 'registerSeller']);
+        Route::put('update_profile', [App\Http\Controllers\Renter\RenterProfileController::class, 'update']);
     });
 
     Route::middleware('role:admin')->prefix('admin')->group(function () {

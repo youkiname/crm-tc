@@ -16,6 +16,7 @@ class Shop extends Model
         'cashback',
         'shopping_center_id',
         'category_id',
+        'legal_form',
     ];
 
     public function renter()

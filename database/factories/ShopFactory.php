@@ -24,6 +24,7 @@ class ShopFactory extends Factory
             "cashback" => $this->faker->numberBetween($min = 5, $max = 20),
             'shopping_center_id' => ShoppingCenter::inRandomOrder()->first()->id,
             'category_id' => ShopCategory::inRandomOrder()->first()->id,
+            'legal_form' => ''
         ];
     }
 }
