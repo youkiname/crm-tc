@@ -10,7 +10,7 @@ class RenterSellerController extends SellerController
 {
     public function index(Request $request) {
         $request->merge([
-            'shop_id' => $request->user()->shop()->id,
+            'shop_id' => $request->user()->shop->id,
         ]);
         return parent::index($request);
     }
