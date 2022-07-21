@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Abstract;
 use App\Http\Controllers\Controller;
-
 use Illuminate\Http\Request;
+use App\Http\Resources\UserResource;
 
 class ProfileController extends Controller
 {
