@@ -18,7 +18,7 @@ class Controller extends BaseController
 
     protected function jsonSuccess() {
         return response()->json([
-            'success' => true,
+            'success' => true
         ]);
     }
 

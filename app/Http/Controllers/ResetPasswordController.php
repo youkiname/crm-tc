@@ -15,6 +15,7 @@ use App\Models\User;
 use App\Models\ResetPasswordCode;
 
 use Carbon\Carbon;
+use App;
 
 class ResetPasswordController extends Controller
 {
@@ -54,6 +55,10 @@ class ResetPasswordController extends Controller
 
     private function sendResetPasswordMail($user) {
         $code = $this->generateCode(5);
+        if (App::runningUnitTests()) {
+            $code = '00000';
+        }
+        ResetPasswordCode::where('email', $user->email)->delete();
         ResetPasswordCode::create([
             'email' => $user->email,
             'code' => $code,

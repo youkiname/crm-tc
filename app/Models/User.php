@@ -93,6 +93,16 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
+    public function settings() {
+        $settings = UserSettings::where('user_id', $this->id)->first();
+        if ($settings) {
+            return $settings;
+        }
+        return UserSettings::create([
+            'user_id' => $this->id,
+        ]);
+    }
+
     public function isEmailVerified() {
         return (bool) $this->email_verified_at;
     }

@@ -13,35 +13,46 @@ class RegistrationTest extends TestCase
     use WithFaker;
 
     public function testCustomerRegister() {
-        $this->testRegistration('customer');
+        $this->auth('customer');
+        $this->post('/api/admin/register_renter', $this->generateUserData())
+        ->assertStatus(403);
+        $this->post('/api/renter/register_seller', $this->generateUserData())
+        ->assertStatus(403);
     }
 
     public function testSellerRegister() {
-        $this->testRegistration('seller');
+        $this->auth('seller');
+        $this->post('/api/admin/register_renter', $this->generateUserData())
+        ->assertStatus(403);
+        $this->post('/api/renter/register_seller', $this->generateUserData())
+        ->assertStatus(403);
     }
 
     public function testRenterRegister() {
-        $this->testRegistration('renter');
+        $this->auth('renter');
+        $this->post('/api/admin/register_renter', $this->generateUserData())
+        ->assertStatus(403);
+        $this->post('/api/renter/register_seller', $this->generateUserData())
+        ->assertStatus(201);
     }
 
     public function testAdminRegister() {
-        $this->testRegistration('admin');
+        $this->auth('admin');
+        $this->post('/api/admin/register_renter', $this->generateUserData())
+        ->assertStatus(201);
+        $this->post('/api/renter/register_seller', $this->generateUserData())
+        ->assertStatus(403);
     }
 
-    private function testRegistration($roleName)
-    {
-        $response = $this->postJson('/api/register/' . $roleName, [
-            'first_name' => 'User-' . $roleName,
+    private function generateUserData() {
+        return [
+            'first_name' => 'User',
             'last_name' => 'CreatedByTests',
             'email' => $this->faker()->email(),
             'gender' => 'male',
             'mobile' => '+79209875544',
             'birth_date' => date('Y-m-d'),
             'password' => '123123123',
-        ]);
-
-        $response->assertStatus(201);
-
-        User::where('id', $response['id'])->delete();
+        ];
     }
 }

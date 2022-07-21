@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Testing\Fluent\AssertableJson;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -13,31 +14,43 @@ class AuthTest extends TestCase
 {
     public function testCustomerAuth()
     {
-        $this->testAuth('customer');
+        $this->auth('customer');
     }
 
     public function testSellerAuth()
     {
-        $this->testAuth('seller');
+        $this->auth('seller');
     }
 
     public function testRenterAuth()
     {
-        $this->testAuth('renter');
+        $this->auth('renter');
     }
 
     public function testAdminAuth()
     {
-        $this->testAuth('admin');
+        $this->auth('admin');
     }
 
-    private function testAuth($roleName)
+    public function testRefresh()
     {
-        $roleId = Role::where('name', $roleName)->first()->id;
-        $user = User::where('role_id', $roleId)->inRandomOrder()->first();
-        $params = '?email=' . $user->email . '&password=123123123';
-        $route = '/api/auth/' . $roleName;
-        $response = $this->getJson($route . $params);
-        $response->assertStatus(200);
+        $this->auth('customer');
+        $this->get('api/auth/refresh')->assertJson(fn (AssertableJson $json) =>
+            $json->has('token')->etc()
+        );;
+    }
+
+    public function testTwoFactor()
+    {
+        $customer = User::where('email', 'customer@mail.ru')->first();
+        $settings = $customer->settings();
+        $settings->two_factor_auth = 1;
+        $settings->save();
+        $params = '?email=' . $customer->email . '&password=123123123';
+        $this->getJson('api/auth'. $params)->assertJson(fn (AssertableJson $json) =>
+            $json->has('success')->etc()
+        );;
+        $settings->two_factor_auth = 0;
+        $settings->save();
     }
 }

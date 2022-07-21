@@ -8,7 +8,6 @@ use Illuminate\Database\Seeder;
 use App\Models\Role;
 use App\Models\CardStatus;
 use App\Models\ShopCategory;
-use App\Models\MessageType;
 
 class DatabaseSeeder extends Seeder
 {
@@ -72,16 +71,6 @@ class DatabaseSeeder extends Seeder
         ]);
         ShopCategory::create([
             'name' => 'Электроника'
-        ]);
-
-        MessageType::create([
-            'name' => 'text',
-        ]);
-        MessageType::create([
-            'name' => 'image',
-        ]);
-        MessageType::create([
-            'name' => 'video',
         ]);
         
         $this->call([

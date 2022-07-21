@@ -15,28 +15,32 @@ use App\Models\User;
 use App\Models\Role;
 use App\Models\AuthVerificationCode;
 
+use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
+use App;
 
 class AuthController extends Controller
 {
+    /*
+    *
+    * Пока что можно авторизовать с любой ролью, роут не важен ->
+    * чтобы проверить запрет использования апи с разных ролей.
+    *
+    */
     public function authCustomer(AuthRequest $request) {
-        $roleId = Role::where('name', 'customer')->first()->id;
-        return $this->auth($request, $roleId);
+        return $this->auth($request, 'customer');
     }
 
     public function authSeller(AuthRequest $request) {
-        $roleId = Role::where('name', 'seller')->first()->id;
-        return $this->auth($request, $roleId);
+        return $this->auth($request, 'seller');
     }
 
     public function authRenter(AuthRequest $request) {
-        $roleId = Role::where('name', 'renter')->first()->id;
-        return $this->auth($request, $roleId);
+        return $this->auth($request, 'renter');
     }
 
     public function authAdmin(AuthRequest $request) {
-        $roleId = Role::where('name', 'admin')->first()->id;
-        return $this->auth($request, $roleId);
+        return $this->auth($request, 'admin');
     }
 
     public function verifyAuth(VerifyAuthRequest $request) {
@@ -45,8 +49,10 @@ class AuthController extends Controller
         if (!$verification) {
             $this->jsonAbort('Wrong code', 404);
         }
+        $user = $verification->user;
         $verification->delete();
-        return $this->getAuthenticatedUserData($verification->user);
+        Auth::login($user);
+        return AuthenticatedUserResource::make($user)->addToken(Auth::refresh());
     }
 
     public function getMe(Request $request) {
@@ -55,9 +61,7 @@ class AuthController extends Controller
 
     public function logout() {
         Auth::logout();
-        return response()->json([
-            'success' => true,
-        ]);
+        return $this->jsonSuccess();
     }
 
     public function refresh()
@@ -67,7 +71,17 @@ class AuthController extends Controller
         return AuthenticatedUserResource::make($user)->addToken($token);
     }
 
-    private function auth(AuthRequest $request, $roleId)
+    private function auth(AuthRequest $request, $role)
+    {
+        $user = User::where('email', $request->email)->first();
+        $isTwoFactorAuthEnabled = $user->settings()->two_factor_auth;
+        if ($isTwoFactorAuthEnabled) {
+            return $this->twoFactorAuth($request, $user);
+        }
+        return $this->_auth($request);
+    }
+
+    private function _auth(AuthRequest $request)
     {
         $credentials = $request->only('email', 'password');
 
@@ -75,31 +89,30 @@ class AuthController extends Controller
         // set the token to expire after 48 hours
         $token = Auth::setTTL($hoursTTL48)->attempt($credentials);
         if (!$token) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Unauthorized',
-            ], 401);
+            return response()->json(['errors' => 'unauthorized'], 401);
         }
         $user = Auth::user();
         return AuthenticatedUserResource::make($user)->addToken($token);
     }
 
-    private function twoFactorAuth(AuthRequest $request, $roleId)
+    private function twoFactorAuth(AuthRequest $request, $user)
     {
-        $user = User::where('email', $request->email)
-        ->where('role_id', $roleId)
-        ->first();
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        if (!Hash::check($request->password, $user->password)) {
             $this->jsonAbort('Wrong email or password', 401);
         }
         $this->sendAuthVerificationCode($user);
         return response()->json([
             'success' => true,
+            'message' => 'Verification code was sent to email.'
         ]);
     }
 
     private function sendAuthVerificationCode($user) {
         $code = $this->generateCode(5);
+        if (App::runningUnitTests()) {
+            $code = '00000';
+        }
+        AuthVerificationCode::where('email', $user->email)->delete();
         AuthVerificationCode::create([
             'email' => $user->email,
             'code' => $code,

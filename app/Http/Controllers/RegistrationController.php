@@ -22,19 +22,27 @@ use Carbon\Carbon;
 class RegistrationController extends Controller
 {
     public function registerCustomer(RegistrationRequest $request) {
-        return $this->register($request, 'customer');
+        $user = $this->register($request, 'customer');
+        $this->generateAccounts($user->id);
+        return new UserResource($user);
     }
 
     public function registerSeller(RegistrationRequest $request) {
-        return $this->register($request, 'seller');
+        $user = $this->register($request, 'seller');
+        $user->cashback = random_int(5, 30);
+        $user->save();
+        return new UserResource($user);
     }
 
     public function registerRenter(RegistrationRequest $request) {
-        return $this->register($request, 'renter');
+        $user = $this->register($request, 'renter');
+        $this->generateAccounts($user->id);
+        return new UserResource($user);
     }
 
     public function registerAdmin(RegistrationRequest $request) {
-        return $this->register($request, 'admin');
+        $user = $this->register($request, 'admin');
+        return new UserResource($user);
     }
 
     private function register(RegistrationRequest $request, $roleName)
@@ -52,17 +60,8 @@ class RegistrationController extends Controller
             'password' => Hash::make($request->password),
             'role_id' => $roleId,
         ]);
-
-        if ($roleName == 'seller') { // seller role_id
-            $user->cashback = random_int(5, 30);
-        }
-
-        if ($roleName == 'customer' || $roleName == 'renter') {
-            $this->generateAccounts($user->id);
-        }
-
         $this->sendVerificationMail($user);
-        return new UserResource($user);
+        return $user;
     }
 
     private function generateAccounts($userId) {
@@ -76,17 +75,12 @@ class RegistrationController extends Controller
     }
 
     private function sendVerificationMail($user) {
-        $code = $this->generateVerificationCode();
+        $code = $this->generateCode(5);
         VerificationCode::create([
             'user_id' => $user->id,
             'code' => $code,
             'expires_at' => Carbon::tomorrow(),
         ]);
         Mail::to($user->email)->send(new EmailVerification($code));
-    }
-
-    private function generateVerificationCode() {
-        $code = $this->generateCode(5);
-        return $code;
     }
 }

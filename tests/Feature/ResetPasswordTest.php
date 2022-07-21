@@ -6,17 +6,59 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+use App\Models\User;
+
 class ResetPasswordTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    public function test_example()
+    protected function setUp(): void
     {
-        $response = $this->get('/');
+        parent::setUp();
+        $this->email = User::inRandomOrder()->first()->email;
+    }
 
-        $response->assertStatus(200);
+    public function test()
+    {
+        $this->testReset();
+        $this->testVerify();
+        $this->testUpdate();
+    }
+
+    private function testReset()
+    {
+        $response = $this->post('/api/users/reset_password', [
+            'email' => $this->email
+        ])->assertStatus(200);
+    }
+
+    private function testVerify()
+    {
+        $response = $this->call('GET', '/api/users/verify_password_reset', [
+            'email' => $this->email,
+            'code' => '12345'
+        ])
+        ->assertStatus(404);
+
+        $response = $this->call('GET', '/api/users/verify_password_reset', [
+            'email' => $this->email,
+            'code' => '00000'
+        ])
+        ->assertStatus(200);
+    }
+
+    private function testUpdate()
+    {
+        $response = $this->post('/api/users/update_password', [
+            'new_password' => '11111111',
+            'code' => '12345',
+            'email' => $this->email,
+        ])
+        ->assertStatus(404);
+        
+        $response = $this->post('/api/users/update_password', [
+            'new_password' => '11111111',
+            'code' => '00000',
+            'email' => $this->email,
+        ])
+        ->assertStatus(200);
     }
 }

@@ -3,6 +3,7 @@
 namespace Tests;
 
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Illuminate\Testing\Fluent\AssertableJson;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -11,16 +12,19 @@ abstract class TestCase extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->withHeaders([
-            'Authorization' => 'Bearer ' . $this->getAuthToken(),
-            'Accept' => 'application/json'
-        ]);
     }
 
-    protected function getAuthToken()
+    protected function auth($role='customer')
     {
-        $response = $this->getJson('/api/auth/?email=customer@mail.ru&password=123123123')
-        ->assertStatus(200);
+        $params = "?email=" . $role . '@mail.ru&password=123123123';
+        $response = $this->getJson('/api/auth/' . $params)
+        ->assertJson(fn (AssertableJson $json) =>
+            $json->has('token')->etc()
+        );
+        $this->withHeaders([
+            'Authorization' => 'Bearer ' . $response['token'],
+            'Accept' => 'application/json'
+        ]);
         return $response['token'];
     }
 }
