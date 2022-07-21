@@ -14,6 +14,7 @@ class ProfileController extends Controller
         $user->phone = $request->phone ?? $user->phone;
         $user->birth_date = $request->birth_date ?? $user->birth_date;
         $user->email = $request->email ?? $user->email;
+        $user->save();
         return new UserResource($user);
     }
 }
