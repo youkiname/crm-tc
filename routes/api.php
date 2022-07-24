@@ -44,11 +44,15 @@ Route::middleware('auth:api')->group(function () {
     Route::get('shops/categories', [App\Http\Controllers\Abstract\ShopController::class, 'getCategories']);
 
     Route::middleware('role:customer')->prefix('customer')->group(function () {
-        Route::post('polls/make_choice', [App\Http\Controllers\Customer\CustomerPollController::class, 'makeChoice']);
+        Route::get('polls', [App\Http\Controllers\Customer\CustomerPollController::class, 'index']);
         Route::get('polls/shopping_centers', [App\Http\Controllers\Customer\CustomerPollController::class, 'getCenters']);
+        Route::get('polls/{id}', [App\Http\Controllers\Customer\CustomerPollController::class, 'show']);
+        Route::post('polls/make_choice', [App\Http\Controllers\Customer\CustomerPollController::class, 'makeChoice']);
         Route::get('shopping_centers', [App\Http\Controllers\Customer\CustomerShoppingCenterController::class, 'index']);
         Route::put('update_profile', [App\Http\Controllers\Customer\CustomerProfileController::class, 'update']);
         Route::post('statistic/visitors', [App\Http\Controllers\Abstract\StatisticController::class, 'storeVisitor']);
+        Route::get('users/by_card_number', [App\Http\Controllers\Customer\CustomerUserController::class, 'showUserByCardNumber']);
+        Route::get('banners', [App\Http\Controllers\Customer\CustomerBannerController::class, 'index']);
     });
 
     Route::middleware('role:seller')->prefix('seller')->group(function () {

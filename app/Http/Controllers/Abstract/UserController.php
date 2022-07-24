@@ -32,7 +32,7 @@ class UserController extends Controller
         //
     }
 
-    public function showUserByCardNumber($cardNumber) {
+    protected function _showUserByCardNumber($cardNumber) {
         $user = User::where('card_number', $cardNumber)->first();
         if (!$user) {
             $this->jsonAbort('User not found', 404);

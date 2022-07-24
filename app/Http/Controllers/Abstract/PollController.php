@@ -79,8 +79,9 @@ class PollController extends Controller
         return new PollResource($poll);
     }
 
-    public function show(Poll $poll)
+    public function show(Request $request, $id)
     {
+        $poll = Poll::find($id);
         return new PollResource($poll);
     }
 
