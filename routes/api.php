@@ -113,6 +113,7 @@ Route::middleware('auth:api')->group(function () {
         Route::get('statistic/visitors/age_plot/month', [App\Http\Controllers\Admin\AdminStatisticController::class, 'getVisitorsAgePlotMonth']);
         Route::get('statistic/visitors/age_plot/year', [App\Http\Controllers\Admin\AdminStatisticController::class, 'getVisitorsAgePlotYear']);
         Route::post('register_renter', [RegistrationController::class, 'registerRenter']);
+        Route::get('shopping_centers', [App\Http\Controllers\Abstract\ShoppingCenterController::class, 'index']);
     });
     
     Route::middleware('role:superadmin')->prefix('superadmin')->group(function () {
